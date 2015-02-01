@@ -67,7 +67,7 @@ function gui:Layout ()
 
   function self:keyboardAction (type, key, ...)
     local element = focused and elements[focused] or elements[#elements]
-    if element:isVisible() then
+    if element and element:isVisible() then
       element["onKey"..type] (element, key, ...)
     end
   end

@@ -6,6 +6,7 @@ local core  = class.package 'ufo.core'
 function core:Engine ()
   
   local activities = {}
+  local layout
 
   local function removeActivity (index)
     local activity = activities[index]
@@ -13,16 +14,24 @@ function core:Engine ()
     return activity
   end
 
-  local function addActivity (activity, i)
+  function self:addActivity (activity, i)
     i = i or #activities+1
     table.insert(activities, i, activity)
-    activity:receiveEvent(engine.Event("Load"))
+    activity:receiveEvent(core.Event("Load", self))
   end
 
   function self:broadcastEvent (ev)
     for _,activity in ipairs(activities) do
       activity:receiveEvent(ev)
     end
+  end
+
+  function self:getLayout ()
+     return layout
+   end
+
+  function self:setLayout(new_layout)
+    layout = new_layout
   end
 
   function self:tick ()

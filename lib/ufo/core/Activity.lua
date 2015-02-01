@@ -1,11 +1,11 @@
 
-local engine = require 'lux.oo.class' .package 'engine'
+local core = require 'lux.oo.class' .package 'ufo.core'
 
-local Event = engine.Event
-local Queue = engine.Queue
-local Task  = engine.Task
+local Event = core.Event
+local Queue = core.Queue
+local Task  = core.Task
 
-function engine:Activity ()
+function core:Activity ()
 
   local QUEUE_MAX_SIZE = 32
 

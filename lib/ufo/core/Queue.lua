@@ -1,7 +1,7 @@
 
-local engine = require 'lux.oo.class' .package 'engine'
+local core = require 'lux.oo.class' .package 'ufo.core'
 
-function engine:Queue (max)
+function core:Queue (max)
 
   assert(max > 1)
 
