@@ -4,58 +4,16 @@ package.path = package.path .. ";./game/lib/?.lua;./lib/?.lua"
 
 local FRAME = 1/60
 
-local class       = require 'lux.oo.class'
+local class = require 'lux.oo.class'
 
-local engine      = class.package 'engine'
+local core  = class.package 'ufo.core'
 
 local game_ui
-local activities  = {}
-
-function addActivity (activity, i)
-  i = i or #activities+1
-  table.insert(activities, i, activity)
-  activity:receiveEvent(engine.Event("Load"))
-end
-
-local function removeActivity (index)
-  local activity = activities[index]
-  table.remove(activities, index)
-  return activity
-end
-
-function broadcastEvent (ev)
-  for _,activity in ipairs(activities) do
-    activity:receiveEvent(ev)
-  end
-end
-
-local function tick ()
-  if #activities == 0 then
-    return love.event.push 'quit'
-  end
-  local finished = {}
-  for i,activity in ipairs(activities) do
-    activity:processEvents()
-    activity:updateTasks()
-    for ev in activity:pollEvents() do
-      broadcastEvent(ev)
-    end
-    if activity:isFinished() then
-      table.insert(finished, i)
-    end
-  end
-  for k=#finished,1,-1 do
-    local removed = removeActivity(finished[k])
-    local scheduled = removed:getScheduled()
-    for i = #scheduled,1,-1 do
-      addActivity(scheduled[i], finished[k])
-    end
-  end
-end
+local engine
 
 function love.load ()
+  engine = core.Engine()
   game_ui = engine.UI()
-  tick()
 end
 
 do
@@ -63,7 +21,9 @@ do
   function love.update (dt)
     lag = lag + dt
     while lag >= FRAME do
-      tick()
+      if engine:tick() == 'FINISHED' then
+        love.event.push 'quit'
+      end
       lag = lag - FRAME
     end
     game_ui:refresh()
