@@ -5,7 +5,7 @@ local vec2  = require 'lux.geom.Vector'
 local gui   = class.package 'ufo.gui'
 local grid  = class.package 'ufo.gui.grid'
 
-function grid:SquareGridElement (tile_size, _name)
+function grid:SquareGridElement (_name, tile_size, sprite_loader)
   
   gui.Element:inherit(self, _name, vec2:new{}, vec2:new{1024, 768})
 
@@ -23,6 +23,10 @@ function grid:SquareGridElement (tile_size, _name)
         graphics.setColor(100, 100 + t*50, 100 + t*50, 255)
         graphics.rectangle('fill', (j-1)*tile_size, (i-1)*tile_size,
                            tile_size, tile_size)
+        for k,descriptor in ipairs(stack) do
+          local sprite = sprite_loader:load(descriptor:getName())
+          sprite:draw(graphics, tile_size*vec2:new{j-.5, i-.5})
+        end
       end
     end
   end
