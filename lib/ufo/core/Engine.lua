@@ -53,7 +53,7 @@ function core:Engine ()
       local removed = removeActivity(finished[k])
       local scheduled = removed:getScheduled()
       for i = #scheduled,1,-1 do
-        addActivity(scheduled[i], finished[k])
+        self:addActivity(scheduled[i], finished[k])
       end
     end
     return 'OK'
