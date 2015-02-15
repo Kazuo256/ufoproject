@@ -119,4 +119,12 @@ function gui:Element (name, pos, size)
     -- abstract method
   end
 
+  function self:onGamePadButtonPressed (button)
+    -- abstract method
+  end
+
+  function self:onGamePadHatChanged (hat, dir)
+    -- abstract method
+  end
+
 end

@@ -72,6 +72,13 @@ function gui:Layout ()
     end
   end
 
+  function self:joystickAction (type, ...)
+    local element = focused and elements[focused] or elements[#elements]
+    if element then
+      element["onGamePad"..type] (element, ...)
+    end
+  end
+
   function self:refresh ()
     self:mouseAction('Hover', vec2:new{ love.mouse.getPosition() })
     for _,element in ipairs(elements) do

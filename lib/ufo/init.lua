@@ -47,6 +47,14 @@ function love.mousereleased (x, y, button)
   layout:mouseAction('Released', vec2:new{x,y}, button)
 end
 
+function love.joystickpressed (joystick, button)
+  layout:joystickAction('ButtonPressed', button)
+end
+
+function love.joystickhat (joystick, hat, dir)
+  layout:joystickAction('HatChanged', hat, dir)
+end
+
 function love.draw ()
   layout:draw(love.graphics, love.window)
 end
