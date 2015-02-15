@@ -17,7 +17,7 @@ function grid:SquareGridElement (tile_size, _name)
 
   function self:draw (graphics)
     if grid_descriptor then
-      for pos, tile, stack in grid_descriptor:eachPosition() do
+      for pos, tiletype, stack in grid_descriptor:eachPosition() do
         local i, j = pos.i, pos.j
         local t = (i + j) % 2
         graphics.setColor(100, 100 + t*50, 100 + t*50, 255)
