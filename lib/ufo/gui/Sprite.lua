@@ -1,16 +1,14 @@
 
-local class = require 'lux.oo.class'
-
 local gui = class.package 'ufo.gui'
 
-function gui:Sprite (descriptor)
+function gui:Sprite (primitive, descriptor)
 
   function self:onRefresh ()
-    -- optional method
+    
   end
   
   function self:draw (graphics, pos)
-    error "Unimplemented method Sprite:draw"
+    primitive:draw(graphics, pos)
   end
 
 end

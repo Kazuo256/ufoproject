@@ -1,7 +1,4 @@
 
-local class = require 'lux.oo.class' 
-local vec2  = require 'lux.geom.Vector'
-
 local gui   = class.package 'ufo.gui'
 local grid  = class.package 'ufo.gui.grid'
 
