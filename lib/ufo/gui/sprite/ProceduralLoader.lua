@@ -2,32 +2,25 @@
 local class   = require 'lux.oo.class'
 
 local sprite  = class.package 'ufo.gui.sprite'
-
-local PATH = "assets/sprites/%s.lua"
+local assets  = class.package 'assets.sprites'
 
 function sprite:ProceduralLoader ()
   
-  sprite.SpriteLoader:inherit(self)
+  sprite.Loader:inherit(self)
 
   local cache = {}
 
-  local function pathTo (name)
-    return PATH:format(name)
-  end
-
-  local function getCached (name)
-    local script = cache[name]
-    if not script then
-      local ok
-      ok, script = pcall(love.filesystem.load, pathTo(name))
-      assert(ok, "Failed to load asset '"..name.."'")
-      cache[name] = script
+  local function getCached (descriptor)
+    local sprite = cache[descriptor]
+    if not sprite then
+      sprite = assets[descriptor:getName()](descriptor)
+      cache[descriptor] = sprite
     end
-    return script
+    return sprite
   end
 
-  function self:load (name)
-    return getCached(name) ()
+  function self:load (descriptor)
+    return getCached(descriptor)
   end
 
 end
