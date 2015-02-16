@@ -5,8 +5,8 @@ function gui:Sprite (primitive, descriptor)
 
   function self:onRefresh ()
     primitive:onRefresh()
-    for property, value in descriptor:eachProperty() do
-      primitive:setProperty(property, value)
+    for property in descriptor:eachProperty() do
+      primitive:setProperty(unpack(property))
     end
   end
   

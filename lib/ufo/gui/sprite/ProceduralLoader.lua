@@ -16,13 +16,13 @@ function sprite:ProceduralLoader ()
   end
 
   local function getCached (descriptor)
-    local sprite = cache[name]
+    local sprite = cache[descriptor]
     if not sprite then
       local name = descriptor:getName()
       local ok, script = pcall(love.filesystem.load, pathTo(name))
       assert(ok, "Failed to load asset '"..name.."'")
       sprite = gui.Sprite(script(), descriptor)
-      cache[name] = sprite
+      cache[descriptor] = sprite
     end
     return sprite
   end
