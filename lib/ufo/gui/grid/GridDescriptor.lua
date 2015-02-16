@@ -11,6 +11,10 @@ end
 
 function grid:GridDescriptor ()
 
+  function self:getFocus ()
+    return 1, 1
+  end
+
   function self:describe (pos, tile, stack)
     return coroutine.yield(pos, tile, stack)
   end

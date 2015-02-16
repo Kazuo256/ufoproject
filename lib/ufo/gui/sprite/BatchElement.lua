@@ -12,6 +12,13 @@ function sprite:BatchElement (_name, sprite_loader)
     table.insert(descriptors, descriptor)
   end
 
+  function self:onRefresh ()
+    for _,descriptor in ipairs(descriptors) do
+      local sprite = sprite_loader:load(descriptor)
+      sprite:onRefresh()
+    end
+  end
+
   function self:draw (graphics)
     for _,descriptor in ipairs(descriptors) do
       local sprite = sprite_loader:load(descriptor)
