@@ -16,7 +16,8 @@ function primitive:Text (width, font, format, hotspot)
     local text = self:getProperty('text') or "?"
     local oldfont = graphics.getFont()
     graphics.setFont(font)
-    graphics.printf(text, pos.x - hotspot.x, pos.y - hotspot.y, width, format)
+    graphics.printf(text, pos.x, pos.y, width, format, 0, 1, 1,
+                    hotspot.x, hotspot.y)
     graphics.setColor(255, 255, 255, 255)
     graphics.setFont(oldfont)
   end

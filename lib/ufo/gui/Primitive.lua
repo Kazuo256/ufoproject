@@ -9,8 +9,12 @@ function gui:Primitive (graphics)
     -- optional method
   end
 
-  function self:setProperty (property, value)
+  function self:_setProperty (property, value)
     properties[property] = value
+  end
+
+  function self:setProperty (property, value)
+    self:_setProperty(property, value)
   end
 
   function self:getProperty (property, ...)
