@@ -17,6 +17,12 @@ function input:GamePadElement (_name, engine)
 
   Element:inherit(self, _name, vec2:new{}, vec2:new{1024, 768})
 
+  local button_bindings = {}
+
+  function self:bindButton (button, event)
+    button_bindings[button] = event
+  end
+
   function self:onGamePadHatChanged (hat, dir)
     local id = dirmap[dir]
     if id then
@@ -25,7 +31,10 @@ function input:GamePadElement (_name, engine)
   end
 
   function self:onGamePadButtonPressed (button)
-
+    local event = button_bindings[button]
+    if event then
+      engine:broadcastEvent(Event(event))
+    end
   end
 
   function self:draw (graphics)
