@@ -4,7 +4,7 @@ local primitive = class.package 'ufo.gui.primitive'
 
 function primitive:Image (img, hotspot)
 
-  gui.Primitive:inherit(self, graphics)
+  gui.Primitive:inherit(self)
 
   hotspot = hotspot or vec2:new{}
   

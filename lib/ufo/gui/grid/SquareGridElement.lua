@@ -51,7 +51,7 @@ function grid:SquareGridElement (_name, tile_size, num, sprite_loader)
       local pos, tiletype, stack = unpack(tile)
       local i, j = pos.i, pos.j
       if isTileVisible(i, j) then
-        local t = (i + j) % 2
+        local t = (focus.i + focus.j + i + j) % 2
         graphics.setColor(100, 100 + t*50, 100 + t*50, 255)
         graphics.rectangle('fill', (j-1)*tile_size, (i-1)*tile_size,
                            tile_size, tile_size)
