@@ -2,27 +2,29 @@
 local gui   = class.package 'ufo.gui'
 local grid  = class.package 'ufo.gui.grid'
 
-function grid:SquareGridElement (_name, tile_size, num, sprite_loader)
+function grid:SquareGridElement (_name, num, tile_set)
   
-  gui.Element:inherit(self, _name, vec2:new{}, num*tile_size*vec2:new{1, 1})
+  gui.Element:inherit(self, _name, vec2:new{},
+                      num*tile_set:getTileSize()*vec2:new{1, 1})
 
-  local grid_descriptor
-  local focus = { i = 1, j = 1 }
   local tiles = {}
 
+  for i=1,num do
+    for j=1,num do
+      table.insert(tiles, { i = i, j = j, content = {} })
+    end
+  end
+
+  local function toIndex (i, j)
+    return (i-1)*num + j
+  end
+
   local function isTileVisible (i, j)
+    local tile_size = tile_set:getTileSize()
     return self:intersects(tile_size*vec2:new{j-.5, i-.5})
   end
 
-  function self:setFocus (i, j)
-    focus.i = math.ceil(i - num/2)
-    focus.j = math.ceil(j - num/2)
-  end
-
-  function self:setGridDescriptor (descriptor)
-    grid_descriptor = descriptor
-  end
-
+  --[[
   function self:onRefresh ()
     tiles = {}
     if grid_descriptor then
@@ -45,19 +47,21 @@ function grid:SquareGridElement (_name, tile_size, num, sprite_loader)
       end
     end
   end
+  --]]
+
+  function self:set (i, j, ...)
+    local index = toIndex(i,j)
+    assert(index >= 1 and index <= num*num)
+    tiles[index].content = { ... }
+  end
 
   function self:draw (graphics)
+    local tile_size = tile_set:getTileSize()
     for _,tile in ipairs(tiles) do
-      local pos, tiletype, stack = unpack(tile)
-      local i, j = pos.i, pos.j
+      local i, j = tile.i, tile.j
       if isTileVisible(i, j) then
-        local t = (focus.i + focus.j + i + j) % 2
-        graphics.setColor(100, 100 + t*50, 100 + t*50, 255)
-        graphics.rectangle('fill', (j-1)*tile_size, (i-1)*tile_size,
-                           tile_size, tile_size)
-        for k,descriptor in ipairs(stack) do
-          local sprite = sprite_loader:load(descriptor)
-          sprite:draw(graphics, tile_size*vec2:new{j-.5, i-.5})
+        for k,index in ipairs(tile.content) do
+          tile_set:draw(graphics, index, tile_size*vec2:new{j-.5, i-.5})
         end
       end
     end
