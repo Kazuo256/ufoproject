@@ -5,7 +5,10 @@ function sprite:FixedAtlas (image, frame_size, hotspot)
   
   local quads = {}
 
-  hotspot = hotspot or frame_size/2
+  assert(image)
+
+  frame_size = frame_size or vec2:new{ image:getDimensions() }
+  hotspot = hotspot or vec2:new{}
 
   do -- preload quads
   
@@ -27,8 +30,8 @@ function sprite:FixedAtlas (image, frame_size, hotspot)
     return frame_size:clone()
   end
 
-  function self:draw (graphics, index, pos)
-    graphics.draw(image, quads[index], pos.x, pos.y, 0, 1, 1,
+  function self:draw (graphics, frame, pos)
+    graphics.draw(image, quads[frame], pos.x, pos.y, 0, 1, 1,
                   hotspot.x, hotspot.y)
   end
 

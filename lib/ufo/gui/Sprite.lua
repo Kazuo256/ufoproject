@@ -1,17 +1,16 @@
 
 local gui = class.package 'ufo.gui'
 
-function gui:Sprite (primitive, descriptor)
+function gui:Sprite (atlas)
 
-  function self:onRefresh ()
-    primitive:onRefresh()
-    for property in descriptor:eachProperty() do
-      primitive:setProperty(unpack(property))
-    end
+  local frame = 1
+
+  function self:setFrame (new_frame)
+    frame = new_frame
   end
   
   function self:draw (graphics, pos)
-    primitive:draw(graphics, pos)
+    atlas:draw(graphics, frame, pos)
   end
 
 end
