@@ -8,6 +8,18 @@ function gui:Layout ()
   local reverse_index = {}
   local focused
 
+  function self:getWidth ()
+    return love.window.getWidth()
+  end
+
+  function self:getHeight ()
+    return love.window.getHeight()
+  end
+
+  function self:getDimensions ()
+    return love.window.getDimensions()
+  end
+
   --- Adds a element to the layout.
   -- Nothing happens if the element is currently in the layout.
   -- @param element The added element. Cannot be <code>nil</code>.
