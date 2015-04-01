@@ -20,7 +20,7 @@ function grid:SquareGridElement (_name, tile_num, tile_size, atlas)
   end
 
   local function isTileVisible (i, j)
-    return self:intersects(tile_size*vec2:new{j-.5, i-.5})
+    return self:intersects(self:getPos() + tile_size*vec2:new{j-.5, i-.5})
   end
 
   --[[
@@ -57,9 +57,10 @@ function grid:SquareGridElement (_name, tile_num, tile_size, atlas)
   function self:draw (graphics)
     for _,tile in ipairs(tiles) do
       local i, j = tile.i, tile.j
+      local pos = tile_size*vec2:new{j-.5, i-.5}
       if isTileVisible(i, j) then
         for k,index in ipairs(tile.content) do
-          atlas:draw(graphics, index, tile_size*vec2:new{j-.5, i-.5})
+          atlas:draw(graphics, index, pos)
         end
       end
     end
