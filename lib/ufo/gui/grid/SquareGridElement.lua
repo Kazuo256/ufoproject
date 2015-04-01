@@ -23,31 +23,6 @@ function grid:SquareGridElement (_name, tile_num, tile_size, atlas)
     return self:intersects(self:getPos() + tile_size*vec2:new{j-.5, i-.5})
   end
 
-  --[[
-  function self:onRefresh ()
-    tiles = {}
-    if grid_descriptor then
-      self:setFocus(grid_descriptor:getFocus())
-      for pos, tiletype, stack in grid_descriptor:eachPosition() do
-        if pos.i >= focus.i and pos.i <= focus.i + tile_num
-           and pos.j >= focus.j and pos.j <= focus.j + tile_num then
-          table.insert(tiles, {
-            {
-              i = pos.i - focus.i + 1,
-              j = pos.j - focus.j + 1
-            },
-            tiletype, stack
-          })
-          for _,descriptor in ipairs(stack) do
-            local sprite = sprite_loader:load(descriptor)
-            sprite:onRefresh()
-          end
-        end
-      end
-    end
-  end
-  --]]
-
   function self:set (i, j, ...)
     local index = toIndex(i,j)
     assert(index >= 1 and index <= tile_num*tile_num)
