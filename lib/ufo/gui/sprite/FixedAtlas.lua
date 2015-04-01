@@ -36,7 +36,8 @@ function sprite:FixedAtlas (image, frame_size, hotspot)
 
   function self:draw (graphics, frame, pos, size)
     size = size or vec2:new{1,1}
-    graphics.draw(image, quads[frame], pos.x, pos.y, 0, size.x, size.y,
+    graphics.draw(image, quads[frame], pos.x, pos.y, 0,
+                  size.x, size.y,
                   hotspot.x, hotspot.y)
   end
 
