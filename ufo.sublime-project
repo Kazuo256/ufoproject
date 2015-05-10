@@ -2,8 +2,12 @@
     "folders":
     [
         {
-            "path": "lib"
+            "path": "."
         },
+    ],
+    "files":
+    [
+        "LICENSE"
     ],
     "settings":
     {
