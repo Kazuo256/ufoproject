@@ -1,0 +1,20 @@
+
+================================================================================
+Version 0.1.0
+================================================================================
+
+General
+- First official version
+- Zlib/libpng license
+
+Dependencies
+- LUX Project 0.5.0
+
+Features
+- Single-line takeover using "require 'ufo'"
+- New ufo.core.Engine class manages execution flow
+- New ufo.core.Queue class implements a classic circular fixed-size queue
+- New ufo.core.Activity class is extended to control game dynamics
+- New ufo.core.Event class represents events sent to activities
+- New ufo.core.Task class represents something an activity does for many frames
+- New ufo.gui module with a dozen unstable and poorly defined GUI classes
