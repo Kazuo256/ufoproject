@@ -4,11 +4,11 @@ package.path = package.path .. ";./game/lib/?.lua;./lib/?.lua"
 local FRAME = 1/60
 
 -- These appear in pratically every file, so let's make them global.
-class = require 'lux.oo.class'
 vec2  = require 'lux.geom.Vector'
+pack = require 'lux.pack'
 
-local core  = class.package 'ufo.core'
-local gui   = class.package 'ufo.gui'
+local core  = pack 'ufo.core'
+local gui   = pack 'ufo.gui'
 
 local engine
 local layout
@@ -17,7 +17,7 @@ function love.load ()
   engine = core.Engine()
   layout = gui.Layout()
   engine:setLayout(layout)
-  local activities = class.package 'activities'
+  local activities = pack 'activities'
   engine:addActivity(activities.BootstrapActivity())
 end
 

@@ -1,11 +1,13 @@
 
-local core = require 'lux.oo.class' .package 'ufo.core'
+local core = pack 'ufo.core'
 
 local Event = core.Event
 local Queue = core.Queue
 local Task  = core.Task
 
-function core:Activity ()
+local Activity = require 'lux.class' :new{}
+
+function Activity:instance (obj)
 
   local QUEUE_MAX_SIZE = 32
 
@@ -15,48 +17,48 @@ function core:Activity ()
   local tasks = {}
   local new_tasks, finished_tasks = {}, {}
 
-  self.__accept = {}
-  self.__task   = {}
+  obj.__accept = {}
+  obj.__task   = {}
   local current_task
 
   -- Generic stuff
 
-  function self:isFinished ()
+  function obj:isFinished ()
     return finished
   end
 
-  function self:finish ()
+  function obj:finish ()
     finished = true
   end
 
-  function self:switch (...)
+  function obj:switch (...)
     for i = 1,select('#', ...) do
       table.insert(scheduled, (select(i, ...)))
     end
     finished = true
   end
 
-  function self:getScheduled ()
+  function obj:getScheduled ()
     return scheduled
   end
 
   -- Event stuff
 
-  function self:pollEvents ()
+  function obj:pollEvents ()
     return out_queue:popEach()
   end
 
-  function self:sendEvent (id)
+  function obj:sendEvent (id)
     return function (...)
       out_queue:push(Event(id, ...))
     end
   end
 
-  function self:receiveEvent (ev)
+  function obj:receiveEvent (ev)
     in_queue:push(ev)
   end
 
-  function self:processEvents ()
+  function obj:processEvents ()
     for ev in in_queue:popEach() do
       if finished then return end
       local callback = self.__accept[ev:getID()]
@@ -68,7 +70,7 @@ function core:Activity ()
 
   -- Task stuff
 
-  function self:yield (opt, ...)
+  function obj:yield (opt, ...)
     if type(opt) == 'string' then
       local task = current_task
       task:hold()
@@ -80,16 +82,16 @@ function core:Activity ()
     return coroutine.yield(opt, ...)
   end
 
-  function self:currentTask ()
+  function obj:currentTask ()
     return current_task
   end
 
-  function self:addTask (name, ...)
+  function obj:addTask (name, ...)
     local task = Task(self.__task[name], self, ...)
     table.insert(new_tasks, task)
   end
 
-  function self:updateTasks ()
+  function obj:updateTasks ()
     for _,task in ipairs(new_tasks) do
       tasks[task] = true
     end
@@ -107,3 +109,5 @@ function core:Activity ()
   end
 
 end
+
+return Activity

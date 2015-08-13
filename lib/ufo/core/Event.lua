@@ -1,16 +1,18 @@
 
-local core = require 'lux.oo.class' .package 'ufo.core'
+local Event = require 'lux.class' :new{}
 
-function core:Event (id, ...)
+function Event:instance (obj, id, ...)
 
-  local args = { n = select('#', ...), ... }
+  local args = table.pack(...)
 
-  function self:getID ()
+  function obj:getID ()
     return id
   end
 
-  function self:getArgs ()
+  function obj:getArgs ()
     return unpack(args, 1, args.n)
   end
 
 end
+
+return Event
