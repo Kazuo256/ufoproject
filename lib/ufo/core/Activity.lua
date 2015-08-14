@@ -2,8 +2,8 @@
 local core = pack 'ufo.core'
 
 local Event = core.Event
-local Queue = core.Queue
 local Task  = core.Task
+local Queue = require 'lux.struct.Queue'
 
 local Activity = require 'lux.class' :new{}
 

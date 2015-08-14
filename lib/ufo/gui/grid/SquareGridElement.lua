@@ -1,11 +1,13 @@
 
-local gui   = class.package 'ufo.gui'
-local grid  = class.package 'ufo.gui.grid'
+local gui = pack 'ufo.gui'
 
-function grid:SquareGridElement (_name, tile_num, tile_size, atlas)
+local SquareGridElement = require 'lux.class' :new{}
+
+SquareGridElement:inherit(gui.Element)
+
+function SquareGridElement:instance (obj, _name, tile_num, tile_size, atlas)
   
-  gui.Element:inherit(self, _name, vec2:new{},
-                      tile_num*tile_size*vec2:new{1, 1})
+  self:super(obj, _name, vec2:new{}, tile_num*tile_size*vec2:new{1, 1})
 
   local tiles = {}
 
@@ -42,3 +44,5 @@ function grid:SquareGridElement (_name, tile_num, tile_size, atlas)
   end
 
 end
+
+return SquareGridElement

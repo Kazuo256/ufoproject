@@ -1,7 +1,7 @@
 
-local core = require 'lux.oo.class' .package 'ufo.core'
+local Task = require 'lux.class' :new{}
 
-function core:Task (func, ...)
+function Task:instance (obj, func, ...)
 
   local function bootstrap (...)
     coroutine.yield()
@@ -15,16 +15,16 @@ function core:Task (func, ...)
 
   coroutine.resume(task, ...)
 
-  function self:hold ()
+  function obj:hold ()
     onhold = true
   end
 
-  function self:release (...)
+  function obj:release (...)
     onhold = false
     params = { n = select('#', ...), ... }
   end
 
-  function self:resume ()
+  function obj:resume ()
     if coroutine.status(task) == 'dead' then
       return false
     elseif delay > 0 then
@@ -42,3 +42,5 @@ function core:Task (func, ...)
   end
 
 end
+
+return Task
