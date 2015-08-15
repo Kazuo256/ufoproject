@@ -1,31 +1,33 @@
 
-local class   = require 'lux.oo.class'
-local vec2    = require 'lux.geom.Vector'
 local lambda  = require 'lux.functional'
+local Event   = require 'ufo.core.Event'
+local Element = require 'ufo.gui.Element'
 
-local input   = class.package 'ufo.gui.input'
-local Event   = class.package 'ufo.core' .Event
-local Element = class.package 'ufo.gui' .Element
+local KeyboardElement = require 'lux.class' :new{}
 
-function input:KeyboardElement (_name, engine)
+KeyboardElement:inherit(Element)
 
-  Element:inherit(self, _name, vec2:new{}, vec2:new{1024, 768})
+function KeyboardElement:instance (obj, _name, engine)
+
+  self:super(obj, _name, vec2:new{}, vec2:new{1024, 768})
 
   local key_bindings = {}
 
-  function self:bindKey (key, event, ...)
+  function obj:bindKey (key, event, ...)
     key_bindings[key] = lambda.bindLeft(Event, event, ...)
   end
 
-  function self:onKeyPressed (key)
+  function obj:onKeyPressed (key)
     local event = key_bindings[key]
     if event then
       engine:broadcastEvent(event())
     end
   end
 
-  function self:draw (graphics)
+  function obj:draw (graphics)
     -- draws nothing (maybe debug info)
   end
 
 end
+
+return KeyboardElement

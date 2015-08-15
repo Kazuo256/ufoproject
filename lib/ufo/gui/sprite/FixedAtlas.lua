@@ -1,7 +1,7 @@
 
-local sprite = class.package 'ufo.gui.sprite'
+local FixedAtlas = require 'lux.class' :new{}
 
-function sprite:FixedAtlas (image, frame_size, hotspot)
+function FixedAtlas:instance (obj, image, frame_size, hotspot)
   
   local quads = {}
 
@@ -26,15 +26,15 @@ function sprite:FixedAtlas (image, frame_size, hotspot)
 
   end
 
-  function self:getTileSize ()
+  function obj:getTileSize ()
     return frame_size:clone()
   end
 
-  function self:getFrame (frame)
+  function obj:getFrame (frame)
     return image, quads[frame], hotspot
   end
 
-  function self:draw (graphics, frame, pos, size)
+  function obj:draw (graphics, frame, pos, size)
     size = size or vec2:new{1,1}
     graphics.draw(image, quads[frame], pos.x, pos.y, 0,
                   size.x, size.y,
@@ -42,3 +42,5 @@ function sprite:FixedAtlas (image, frame_size, hotspot)
   end
 
 end
+
+return FixedAtlas
