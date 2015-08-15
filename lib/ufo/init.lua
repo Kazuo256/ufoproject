@@ -4,8 +4,11 @@ package.path = package.path .. ";./game/lib/?.lua;./lib/?.lua"
 local FRAME = 1/60
 
 -- These appear in pratically every file, so let's make them global.
-vec2  = require 'lux.geom.Vector'
+vec2 = require 'lux.geom.Vector'
 pack = require 'lux.pack'
+
+-- Lua 5.X compatibility
+require 'lux.portable'
 
 local core  = pack 'ufo.core'
 local gui   = pack 'ufo.gui'
