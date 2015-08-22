@@ -21,7 +21,7 @@ function Task:instance (obj, func, ...)
 
   function obj:release (...)
     onhold = false
-    params = { n = select('#', ...), ... }
+    params = table.pack(...)
   end
 
   function obj:resume ()
