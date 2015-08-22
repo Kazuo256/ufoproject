@@ -10,7 +10,7 @@ function Event:instance (obj, id, ...)
   end
 
   function obj:getArgs ()
-    return unpack(args, 1, args.n)
+    return table.unpack(args, 1, args.n)
   end
 
 end
