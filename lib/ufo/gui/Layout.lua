@@ -1,6 +1,4 @@
 
-local gui   = pack 'ufo.gui'
-
 local Layout = require 'lux.class' :new{}
 
 function Layout:instance (obj)
