@@ -95,6 +95,7 @@ function Activity:instance (obj)
     for _,task in ipairs(new_tasks) do
       tasks[task] = true
     end
+    new_tasks = {}
     for task,_ in pairs(tasks) do
       if finished then return end
       current_task = task

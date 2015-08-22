@@ -30,7 +30,8 @@ function Task:instance (obj, func, ...)
     elseif delay > 0 then
       delay = delay - 1
     elseif not onhold then
-      local check, result = coroutine.resume(task, unpack(params, 1, params.n))
+      local check, result = coroutine.resume(task,
+                                             table.unpack(params, 1, params.n))
       if not check then
         error(debug.traceback(task, result))
       end
@@ -39,6 +40,7 @@ function Task:instance (obj, func, ...)
         delay = result
       end
     end
+    return true
   end
 
 end
