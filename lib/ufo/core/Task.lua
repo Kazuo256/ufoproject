@@ -36,7 +36,7 @@ function Task:instance (obj, func, ...)
         error(debug.traceback(task, result))
       end
       params = {}
-      if type(result) == 'number' and result > 1 then
+      if type(result) == 'number' then
         delay = result
       end
     end
