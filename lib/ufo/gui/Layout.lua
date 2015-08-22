@@ -1,29 +1,30 @@
 
-local gui   = require 'lux.oo.class' .package 'ufo.gui'
-local vec2  = require 'lux.geom.Vector'
+local gui   = pack 'ufo.gui'
 
-function gui:Layout ()
+local Layout = require 'lux.class' :new{}
+
+function Layout:instance (obj)
 
   local elements      = setmetatable({}, { __index = table })
   local reverse_index = {}
   local focused
 
-  function self:getWidth ()
+  function obj:getWidth ()
     return love.window.getWidth()
   end
 
-  function self:getHeight ()
+  function obj:getHeight ()
     return love.window.getHeight()
   end
 
-  function self:getDimensions ()
+  function obj:getDimensions ()
     return love.window.getDimensions()
   end
 
   --- Adds a element to the layout.
   -- Nothing happens if the element is currently in the layout.
   -- @param element The added element. Cannot be <code>nil</code>.
-  function self:add (element, focus)
+  function obj:add (element, focus)
     if reverse_index[element:getName()] then return end
     elements:insert(element)
     reverse_index[element:getName()] = #elements
@@ -35,7 +36,7 @@ function gui:Layout ()
   --- Removes a element from the layout.
   -- Nothing happens if the element is not curently in the layout.
   -- @param element The removed element. Cannot be <code>nil</code>
-  function self:remove (element)
+  function obj:remove (element)
     assert(element, "Cannot remove nil element.")
     if type(element) ~= 'string' then
       element = element:getName()
@@ -50,24 +51,24 @@ function gui:Layout ()
     end
   end
 
-  function self:find (name)
+  function obj:find (name)
     local index = reverse_index[name]
     return index and elements[index]
   end
 
-  function self:focus (name)
+  function obj:focus (name)
     focused = reverse_index[name]
   end
 
   --- Clears the layout of all elements.
-  function self:clear ()
+  function obj:clear ()
     elements      = setmetatable({}, { __index = table })
     reverse_index = {}
   end
 
   --[[ element events ]]--
 
-  function self:mouseAction (type, pos, ...)
+  function obj:mouseAction (type, pos, ...)
     for i = #elements,1,-1 do
       local element = elements[i]
       if element:isVisible() and element:intersects(pos) then
@@ -77,28 +78,28 @@ function gui:Layout ()
     end
   end
 
-  function self:keyboardAction (type, key, ...)
+  function obj:keyboardAction (type, key, ...)
     local element = focused and elements[focused] or elements[#elements]
     if element and element:isVisible() then
       element["onKey"..type] (element, key, ...)
     end
   end
 
-  function self:joystickAction (type, ...)
+  function obj:joystickAction (type, ...)
     local element = focused and elements[focused] or elements[#elements]
     if element then
       element["onGamePad"..type] (element, ...)
     end
   end
 
-  function self:refresh ()
+  function obj:refresh ()
     self:mouseAction('Hover', vec2:new{ love.mouse.getPosition() })
     for _,element in ipairs(elements) do
       element:onRefresh()
     end
   end
 
-  function self:receiveResults (results)
+  function obj:receiveResults (results)
     for _,result in ipairs(results) do
       for i = #elements,1,-1 do
         local element = elements[i]
@@ -112,7 +113,7 @@ function gui:Layout ()
 
   --[[ element drawing ]]--
 
-  function self:draw (graphics, window)
+  function obj:draw (graphics, window)
     for _,element in ipairs(elements) do
       if element:isVisible() then
         -- store current graphics state
@@ -129,3 +130,5 @@ function gui:Layout ()
   end
 
 end
+
+return Layout

@@ -1,9 +1,9 @@
 
-local class = require 'lux.oo.class'
+local core  = pack 'ufo.core'
 
-local core  = class.package 'ufo.core'
+local Engine = require 'lux.class' :new{}
 
-function core:Engine ()
+function Engine:instance (obj)
   
   local activities = {}
   local layout
@@ -14,27 +14,27 @@ function core:Engine ()
     return activity
   end
 
-  function self:addActivity (activity, i)
+  function obj:addActivity (activity, i)
     i = i or #activities+1
     table.insert(activities, i, activity)
     activity:receiveEvent(core.Event("Load", self))
   end
 
-  function self:broadcastEvent (ev)
+  function obj:broadcastEvent (ev)
     for _,activity in ipairs(activities) do
       activity:receiveEvent(ev)
     end
   end
 
-  function self:getLayout ()
+  function obj:getLayout ()
      return layout
    end
 
-  function self:setLayout(new_layout)
+  function obj:setLayout(new_layout)
     layout = new_layout
   end
 
-  function self:tick ()
+  function obj:tick ()
     if #activities == 0 then
       return 'FINISHED'
     end
@@ -60,3 +60,5 @@ function core:Engine ()
   end
 
 end
+
+return Engine

@@ -1,10 +1,14 @@
 
-local gui   = class.package 'ufo.gui'
-local sprite  = class.package 'ufo.gui.sprite'
+local gui     = pack 'ufo.gui'
+local sprite  = pack 'ufo.gui.sprite'
 
-function sprite:BatchElement (_name)
+local BatchElement = require 'lux.class' :new{}
+
+BatchElement:inherit(gui.Element)
+
+function BatchElement:instance (obj, _name)
   
-  gui.Element:inherit(self, _name, vec2:new{}, vec2:new{1024, 768})
+  self:super(obj, _name, vec2:new{}, vec2:new{1024, 768})
 
   local sprites = {}
 
@@ -12,15 +16,15 @@ function sprite:BatchElement (_name)
     return sprites[lhs].z < sprites[rhs].z
   end
 
-  function self:putSprite (pos, sprite)
+  function obj:putSprite (pos, sprite)
     sprites[sprite] = pos
   end
 
-  function self:removeSprite (sprite)
+  function obj:removeSprite (sprite)
     sprites[sprite] = nil
   end
 
-  function self:draw (graphics)
+  function obj:draw (graphics)
     local order = {}
     for sprite,pos in pairs(sprites) do
       table.insert(order, sprite)
@@ -32,3 +36,5 @@ function sprite:BatchElement (_name)
   end
 
 end
+
+return BatchElement

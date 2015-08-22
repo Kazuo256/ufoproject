@@ -1,10 +1,7 @@
 
-local class   = require 'lux.oo.class'
-local vec2    = require 'lux.geom.Vector'
-
-local input   = class.package 'ufo.gui.input'
-local Event   = class.package 'ufo.core' .Event
-local Element = class.package 'ufo.gui' .Element
+local gui             = pack 'ufo.gui'
+local Event           = pack 'ufo.core' .Event
+local GamePadElement  = require 'lux.class' :new{}
 
 local dirmap = {
   d = 'down',
@@ -13,32 +10,36 @@ local dirmap = {
   u = 'up'
 }
 
-function input:GamePadElement (_name, engine)
+GamePadElement:inherit(gui.Element)
 
-  Element:inherit(self, _name, vec2:new{}, vec2:new{1024, 768})
+function GamePadElement:instance (obj, _name, engine)
+
+  self:super(obj, _name, vec2:new{}, vec2:new{1024, 768})
 
   local button_bindings = {}
 
-  function self:bindButton (button, event)
+  function obj:bindButton (button, event)
     button_bindings[button] = event
   end
 
-  function self:onGamePadHatChanged (hat, dir)
+  function obj:onGamePadHatChanged (hat, dir)
     local id = dirmap[dir]
     if id then
       engine:broadcastEvent(Event('MoveInput', id))
     end
   end
 
-  function self:onGamePadButtonPressed (button)
+  function obj:onGamePadButtonPressed (button)
     local event = button_bindings[button]
     if event then
       engine:broadcastEvent(Event(event))
     end
   end
 
-  function self:draw (graphics)
+  function obj:draw (graphics)
     -- draws nothing (maybe debug info)
   end
 
 end
+
+return GamePadElement

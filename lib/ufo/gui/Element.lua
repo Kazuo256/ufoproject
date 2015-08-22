@@ -1,10 +1,10 @@
 
-local gui   = require 'lux.oo.class' .package 'ufo.gui'
-local vec2  = require 'lux.geom.Vector'
+local gui     = pack 'ufo.gui'
+local Element = require 'lux.class' :new{}
 
 local id = 0
 
-function gui:Element (name, pos, size)
+function Element:instance (obj, name, pos, size)
 
   if not name then
     name = "Generated-"..id
@@ -15,27 +15,27 @@ function gui:Element (name, pos, size)
 
   local visible = true
 
-  function self:getName ()
+  function obj:getName ()
     return name
   end
 
-  function self:isVisible ()
+  function obj:isVisible ()
     return visible
   end
 
-  function self:getPos ()
+  function obj:getPos ()
     return pos:clone()
   end
 
-  function self:getX ()
+  function obj:getX ()
     return pos.x
   end
 
-  function self:getY ()
+  function obj:getY ()
     return pos.y
   end
 
-  function self:setPos (x, y)
+  function obj:setPos (x, y)
     if type(x) == 'number' then
       pos = vec2:new{x,y}
     else
@@ -43,19 +43,19 @@ function gui:Element (name, pos, size)
     end
   end
 
-  function self:getSize ()
+  function obj:getSize ()
     return size:clone()
   end
 
-  function self:getWidth ()
+  function obj:getWidth ()
     return size.x
   end
 
-  function self:getHeight ()
+  function obj:getHeight ()
     return size.y
   end
 
-  function self:setSize (w, h)
+  function obj:setSize (w, h)
     if type(w) == 'number' then
       size = vec2:new{w,h}
     else
@@ -63,23 +63,23 @@ function gui:Element (name, pos, size)
     end
   end
 
-  function self:left ()
+  function obj:left ()
     return pos.x
   end
 
-  function self:right ()
+  function obj:right ()
     return pos.x + size.x
   end
 
-  function self:top ()
+  function obj:top ()
     return pos.y
   end
 
-  function self:bottom ()
+  function obj:bottom ()
     return pos.y + size.y
   end
 
-  function self:intersects (point)
+  function obj:intersects (point)
     if point.x < self:left() or
        point.y < self:top() or
        point.x > self:right() or
@@ -90,41 +90,43 @@ function gui:Element (name, pos, size)
     end
   end
 
-  function self:draw (graphics, window)
+  function obj:draw (graphics, window)
     graphics.setColor(220, 80, 80, 255)
     graphics.rectangle('fill', pos.x, pos.y, size.x, size.y)
   end
 
-  function self:onRefresh ()
+  function obj:onRefresh ()
     -- abstract method
   end
 
-  function self:onMousePressed (point, button)
+  function obj:onMousePressed (point, button)
     -- abstract method
   end
 
-  function self:onMouseReleased (point, button)
+  function obj:onMouseReleased (point, button)
     -- abstract method
   end
 
-  function self:onMouseHover (point, mouse)
+  function obj:onMouseHover (point, mouse)
     -- abstract method
   end
 
-  function self:onKeyPressed (key)
+  function obj:onKeyPressed (key)
     -- abstract method
   end
 
-  function self:onKeyReleased (key)
+  function obj:onKeyReleased (key)
     -- abstract method
   end
 
-  function self:onGamePadButtonPressed (button)
+  function obj:onGamePadButtonPressed (button)
     -- abstract method
   end
 
-  function self:onGamePadHatChanged (hat, dir)
+  function obj:onGamePadHatChanged (hat, dir)
     -- abstract method
   end
 
 end
+
+return Element
