@@ -38,24 +38,12 @@ do
   end
 end
 
-function love.keypressed (key)
-  layout:keyboardAction('Pressed', key)
-end
-
-function love.mousepressed (x, y, button)
-  layout:mouseAction('Pressed', vec2:new{x,y}, button)
-end
-
-function love.mousereleased (x, y, button)
-  layout:mouseAction('Released', vec2:new{x,y}, button)
-end
-
-function love.joystickpressed (joystick, button)
-  layout:joystickAction('ButtonPressed', button)
-end
-
-function love.joystickhat (joystick, hat, dir)
-  layout:joystickAction('HatChanged', hat, dir)
+for k,handler in pairs(love.handlers) do
+  if k ~= 'quit' then
+    love[k] = function (...)
+      return engine:triggerHook(k, ...)
+    end
+  end
 end
 
 function love.draw ()
