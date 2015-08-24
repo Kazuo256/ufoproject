@@ -15,7 +15,11 @@ function Node:instance (obj, name)
   end
 
   function obj:setParent (new_parent)
-    parent = new_parent
+    parent = setmetatable({new_parent}, {__mode='v'})
+  end
+
+  function obj:getParent ()
+    return parent and parent[1]
   end
 
   function obj:addChild (child)
