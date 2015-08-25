@@ -30,6 +30,12 @@ function Node:instance (obj, name)
     table.insert(to_be_removed, child)
   end
 
+  function obj:remove ()
+    if parent then
+      parent[1]:removeChild(self)
+    end
+  end
+
   local function doAddChild (child)
     assert(child, "Cannot add nil node")
     local name = child:getName()
