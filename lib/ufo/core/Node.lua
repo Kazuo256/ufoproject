@@ -36,6 +36,10 @@ function Node:instance (obj, name)
     end
   end
 
+  function obj:onRemove ()
+    -- Abstract
+  end
+
   local function doAddChild (child)
     assert(child, "Cannot add nil node")
     local name = child:getName()
@@ -52,6 +56,7 @@ function Node:instance (obj, name)
     assert(index, "No such child node with name '"..name.."'")
     child:setParent(nil)
     table.remove(children, index)
+    child:onRemove()
     for i=index,#children do
       reverse_index[children[i]:getName()] = i
     end
