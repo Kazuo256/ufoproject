@@ -73,3 +73,5 @@ function Node:instance (obj, name)
   end
 
 end
+
+return Node
