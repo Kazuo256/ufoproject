@@ -6,6 +6,7 @@ local FRAME = 1/60
 -- These appear in pratically every file, so let's make them global.
 vec2 = require 'lux.geom.Vector'
 pack = require 'lux.pack'
+std  = require 'lux.std'
 
 -- Lua 5.X compatibility
 require 'lux.portable'
