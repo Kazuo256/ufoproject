@@ -8,15 +8,15 @@ function Layout:instance (obj)
   local focused
 
   function obj:getWidth ()
-    return love.window.getWidth()
+    return love.graphics.getWidth()
   end
 
   function obj:getHeight ()
-    return love.window.getHeight()
+    return love.graphics.getHeight()
   end
 
   function obj:getDimensions ()
-    return love.window.getDimensions()
+    return love.graphics.getDimensions()
   end
 
   --- Adds a element to the layout.
