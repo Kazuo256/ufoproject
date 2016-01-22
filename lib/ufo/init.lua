@@ -17,9 +17,7 @@ local gfxserver
 function love.load (arg)
   path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
   path.add('ufo-core', 'ufo/core/?.lua')
-  print(love.filesystem.getRequirePath())
   engine = require 'Engine' ()
-
   gfxserver = engine:loadServer "Graphics"
   engine:addActivity(require 'activities.BootstrapActivity' ())
 end
