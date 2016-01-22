@@ -50,7 +50,9 @@ local function displayId (id)
 end
 
 function Domain:newId ()
-  local new_id = setmetatable({}, { __tostring = displayId })
+  local new_id = {}
+  local display = displayId(new_id)
+  setmetatable(new_id, { __tostring = function () return display end })
   valid[new_id] = true
   return new_id
 end
