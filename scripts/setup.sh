@@ -1,12 +1,17 @@
 #!/bin/bash
 
-git clone https://github.com/Kazuo256/luxproject.git
-cp -r luxproject/lib/lux .
-rm -rf luxproject
+mkdir externals
+cd externals
 
-git clone https://github.com/Kazuo256/ufoproject.git
-cp -r ufoproject/lib/ufo .
-rm -rf ufoproject
+git clone https://github.com/Kazuo256/luxproject.git
+cp -r luxproject/lib/lux ../
+
+git clone https://github.com/Kazuo256/ufoproject.git -b infra_domain_activity
+cp -r ufoproject/lib/ufo ../
+cp -r ufoproject/scripts ../
+cp ufoproject/.gitignore ../
+
+cd ..
 
 mkdir activities
 mkdir infra
@@ -14,3 +19,4 @@ mkdir domain
 mkdir assets
 
 echo "require 'ufo'" > main.lua
+
