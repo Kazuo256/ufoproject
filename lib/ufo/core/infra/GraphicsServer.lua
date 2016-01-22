@@ -34,7 +34,7 @@ function GraphicsServer:instance (obj)
     enabled[i] = false
   end
 
-  function obj:refresh ()
+  function obj:refresh (dt)
     -- Nothing for now
   end
 

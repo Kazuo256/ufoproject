@@ -32,7 +32,7 @@ do
       end
       lag = lag - FRAME
     end
-    gfxserver:refresh()
+    gfxserver:refresh(dt)
   end
 end
 
