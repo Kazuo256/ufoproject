@@ -1,4 +1,4 @@
-#!/lua
+#!lua
 
 local template_type, name = ...
 
