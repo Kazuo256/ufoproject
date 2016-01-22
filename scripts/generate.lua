@@ -1,4 +1,3 @@
-#!lua
 
 local template_type, name = ...
 
@@ -38,4 +37,4 @@ print("Generating "..output_path)
 
 local output = io.open(output_path, "w")
 local env = setmetatable( { name = name }, { __index = port.getEnv() })
-output:write(macro.process(template.code, env)
+output:write(macro.process(template.code, env))
