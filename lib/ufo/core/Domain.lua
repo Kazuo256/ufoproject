@@ -46,6 +46,8 @@ function Domain:instance(obj, the_class)
     return pairs(elements)
   end
 
+  obj.__index = the_class
+
 end
 
 local function displayId (id)
