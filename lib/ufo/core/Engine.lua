@@ -1,7 +1,7 @@
 
-local core  = pack 'ufo.core'
+local Engine  = require 'lux.class' :new{}
 
-local Engine = require 'lux.class' :new{}
+local Event   = require 'Event'
 
 local noop = function () end
 
@@ -21,7 +21,7 @@ function Engine:instance (obj)
     function obj:addActivity (activity, i)
       i = i or #activities+1
       table.insert(activities, i, activity)
-      activity:receiveEvent(core.Event("Load", self))
+      activity:receiveEvent(Event("Load", self))
     end
 
     function obj:tick ()
@@ -68,7 +68,7 @@ function Engine:instance (obj)
       else
         param_transfer = param_transfer or noop
         hooks[hook_name] = function (...)
-          return self:broadcastEvent(core.Event(event_id, param_transfer(...)))
+          return self:broadcastEvent(Event(event_id, param_transfer(...)))
         end
       end
     end
