@@ -2,6 +2,7 @@
 local Domain = require 'lux.class' :new{}
 
 local domains = {}
+local valid = {}
 
 function Domain:instance(obj, class)
 
@@ -14,7 +15,7 @@ function Domain:instance(obj, class)
   domains[class] = obj
 
   function obj:create (id, ...)
-    assert(id, "ID is nil")
+    assert(valid[id], "invalid ID")
     assert(not elements[id], "ID already used")
     local element = class(...)
     elements[id] = element
@@ -23,6 +24,7 @@ function Domain:instance(obj, class)
   end
 
   function obj:get (id)
+    assert(valid[id], "invalid ID")
     return elements[id]
   end
 
@@ -32,6 +34,7 @@ function Domain:instance(obj, class)
 
   function obj:destroy (id_or_element)
     local id = reverse[id_or_element] or id_or_element
+    assert(valid[id], "invalid ID")
     reverse[elements[id]] = nil
     elements[id] = nil
   end
@@ -40,6 +43,12 @@ function Domain:instance(obj, class)
     return pairs(elements)
   end
 
+end
+
+function Domain:newId ()
+  local new_id = {}
+  valid[new_id] = true
+  return new_id
 end
 
 function Domain:getId (element)
