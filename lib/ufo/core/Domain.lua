@@ -15,6 +15,9 @@ function Domain:instance(obj, the_class)
   domains[the_class] = obj
 
   function obj:create (id, ...)
+    if id == true then
+      id = Domain:newId()
+    end
     assert(valid[id], "invalid ID")
     assert(not elements[id], "ID already used")
     local element = the_class(...)
@@ -43,6 +46,8 @@ function Domain:instance(obj, the_class)
     return pairs(elements)
   end
 
+  obj.__index = the_class
+
 end
 
 local function displayId (id)
@@ -64,7 +69,5 @@ function Domain:getId (element)
   assert(domain, "Element has no domain")
   return domain:getId(element)
 end
-
-
 
 return Domain

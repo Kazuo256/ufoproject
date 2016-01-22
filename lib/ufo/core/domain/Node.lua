@@ -91,4 +91,12 @@ function Node:instance (obj, name)
 
 end
 
-return Domain(Node)
+local NodeDomain = Domain(Node)
+
+local root = NodeDomain:create(true, "root")
+
+function Node:root ()
+  return root
+end
+
+return NodeDomain
