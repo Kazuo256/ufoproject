@@ -1,10 +1,6 @@
 
 local path = require 'lux.path'
 
-path.add('ufo-core', 'ufo/core/?.lua')
-
-local FRAME = 1/60
-
 -- These appear in pratically every file, so let's make them global.
 prototype = require 'lux.prototype'
 class     = require 'lux.class'
@@ -14,13 +10,16 @@ pack      = require 'lux.pack'
 -- Lua 5.X compatibility
 require 'lux.portable'
 
-local core  = pack 'ufo.core'
-
+local FRAME = 1/60
 local engine
 local gfxserver
 
 function love.load (arg)
-  engine = core.Engine()
+  path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
+  path.add('ufo-core', 'ufo/core/?.lua')
+  print(love.filesystem.getRequirePath())
+  engine = require 'Engine' ()
+
   gfxserver = engine:loadServer "Graphics"
   engine:addActivity(require 'activities.BootstrapActivity' ())
 end
