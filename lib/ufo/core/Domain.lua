@@ -46,7 +46,7 @@ function Domain:instance(obj, the_class)
 end
 
 local function displayId (id)
-  return tostring(id):match "(0x%x)"
+  return tostring(id):match "(0x%x+)"
 end
 
 function Domain:newId ()
