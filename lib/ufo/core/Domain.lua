@@ -51,6 +51,10 @@ function Domain:newId ()
   return new_id
 end
 
+function Domain:validId (id)
+  return valid[id]
+end
+
 function Domain:getId (element)
   local domain = domains[element.__class]
   assert(domain, "Element has no domain")
