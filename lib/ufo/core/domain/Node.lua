@@ -95,7 +95,7 @@ local NodeDomain = Domain(Node)
 
 local root = NodeDomain:create(true, "root")
 
-function Node:root ()
+function NodeDomain:root ()
   return root
 end
 
