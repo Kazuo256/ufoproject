@@ -1,6 +1,7 @@
 
-package.path =
-  package.path .. ";./game/lib/?.lua;./lib/?.lua;./lib/ufo/core/?.lua"
+local path = require 'lux.path'
+
+path.add('ufo-core', 'ufo/core/?.lua')
 
 local FRAME = 1/60
 
@@ -14,17 +15,14 @@ pack      = require 'lux.pack'
 require 'lux.portable'
 
 local core  = pack 'ufo.core'
-local gui   = pack 'ufo.gui'
 
 local engine
-local layout
+local gfxserver
 
 function love.load (arg)
   engine = core.Engine()
-  layout = gui.Layout()
-  engine:setLayout(layout)
-  local activities = pack 'activities'
-  engine:addActivity(activities.BootstrapActivity())
+  gfxserver = engine:loadServer "Graphics"
+  engine:addActivity(require 'activities.BootstrapActivity' ())
 end
 
 do
@@ -37,7 +35,7 @@ do
       end
       lag = lag - FRAME
     end
-    layout:refresh()
+    gfxserver:refresh()
   end
 end
 
@@ -50,10 +48,6 @@ for k,handler in pairs(love.handlers) do
 end
 
 function love.draw ()
-  layout:draw(love.graphics, love.window)
-  local gfxserver = engine:server "Graphics"
-  if gfxserver then
-    gfxserver:drawAll()
-  end
+  gfxserver:drawAll()
 end
 
