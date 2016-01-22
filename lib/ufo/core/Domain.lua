@@ -46,13 +46,11 @@ function Domain:instance(obj, the_class)
 end
 
 local function displayId (id)
-  return tostring(id):match "(0x%x+)"
+  return tonumber(tostring(id):match "(0x%x+)")
 end
 
 function Domain:newId ()
-  local new_id = {}
-  local display = displayId(new_id)
-  setmetatable(new_id, { __tostring = function () return display end })
+  local new_id = { tostring = displayId }
   valid[new_id] = true
   return new_id
 end
@@ -66,5 +64,7 @@ function Domain:getId (element)
   assert(domain, "Element has no domain")
   return domain:getId(element)
 end
+
+
 
 return Domain
