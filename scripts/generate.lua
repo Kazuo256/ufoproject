@@ -2,14 +2,14 @@
 local template_type, name = ...
 
 local macro = require 'lux.macro'
-local port  = require 'lux.port'
+local port  = require 'lux.portable'
 
 local templates = {
   Activity = {
     outdir = "activities",
     code = [[
 
-$: local classname = name.."Activity"
+$! local classname = name.."Activity"
 local $=classname=$ = require 'lux.class' :new{}
 
 $=classname=$:inherit(require 'Activity')
@@ -31,7 +31,7 @@ return $=classname=$
 }
 
 local template = templates[template_type]
-local output_path = template.outdir.."/"..name
+local output_path = template.outdir.."/"..name.."Activity.lua"
 
 print("Generating "..output_path)
 
