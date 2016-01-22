@@ -1,23 +1,23 @@
 
-local Domain = require 'lux.class' :new{}
+local Domain = class:new{}
 
 local domains = {}
 local valid = {}
 
-function Domain:instance(obj, class)
+function Domain:instance(obj, the_class)
 
   local elements = {}
   local reverse = {}
 
-  assert(class, "Class is nil")
-  assert(not domains[class], "There already is a domain for this class")
+  assert(the_class, "Class is nil")
+  assert(not domains[the_class], "There already is a domain for this class")
 
-  domains[class] = obj
+  domains[the_class] = obj
 
   function obj:create (id, ...)
     assert(valid[id], "invalid ID")
     assert(not elements[id], "ID already used")
-    local element = class(...)
+    local element = the_class(...)
     elements[id] = element
     reverse[element] = id
     return element

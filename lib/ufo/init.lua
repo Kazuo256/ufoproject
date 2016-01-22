@@ -1,11 +1,14 @@
 
-package.path = package.path .. ";./game/lib/?.lua;./lib/?.lua"
+package.path =
+  package.path .. ";./game/lib/?.lua;./lib/?.lua;./lib/ufo/core/?.lua"
 
 local FRAME = 1/60
 
 -- These appear in pratically every file, so let's make them global.
-vec2 = require 'lux.geom.Vector'
-pack = require 'lux.pack'
+prototype = require 'lux.prototype'
+class     = require 'lux.class'
+vec2      = require 'lux.geom.Vector'
+pack      = require 'lux.pack'
 
 -- Lua 5.X compatibility
 require 'lux.portable'
@@ -16,7 +19,7 @@ local gui   = pack 'ufo.gui'
 local engine
 local layout
 
-function love.load ()
+function love.load (arg)
   engine = core.Engine()
   layout = gui.Layout()
   engine:setLayout(layout)
@@ -48,5 +51,9 @@ end
 
 function love.draw ()
   layout:draw(love.graphics, love.window)
+  local gfxserver = engine:server "Graphics"
+  if gfxserver then
+    gfxserver:drawAll()
+  end
 end
 

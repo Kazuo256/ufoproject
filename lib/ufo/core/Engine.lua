@@ -79,6 +79,25 @@ function Engine:instance (obj)
 
   end
 
+  --[[ Infra servers management ]]----------------------------------------------
+
+  do
+
+    local servers = {}
+
+    function obj:loadServer (name)
+      assert(not servers[name], "Server already loaded")
+      local server = require("infra."..name.."Server") ()
+      servers[name] = server
+      return server
+    end
+
+    function obj:server (name)
+      return servers[name]
+    end
+
+  end  
+
   --[[ Layout management (deprecated?) ]]---------------------------------------
   do
 

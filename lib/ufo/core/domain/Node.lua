@@ -1,5 +1,6 @@
 
-local Node = require 'lux.class' :new{}
+local Node    = require 'lux.class' :new{}
+local Domain  = require 'ufo.core.Domain'
 
 function Node:instance (obj, name)
 
@@ -20,6 +21,22 @@ function Node:instance (obj, name)
 
   function obj:getParent ()
     return parent and parent[1]
+  end
+
+  function obj:get (index_or_name)
+    local child = children[index_or_name]
+    if not child then
+      if index_or_name:find '/' then
+        local current = self
+        for node_name in index_or_name:gmatch "([^/]+)" do
+          current = current:get(node_name)
+        end
+        child = current
+      else
+        child = children[reverse_index[index_or_name]]
+      end
+    end
+    return child
   end
 
   function obj:addChild (child)
@@ -74,4 +91,4 @@ function Node:instance (obj, name)
 
 end
 
-return Node
+return Domain(Node)
