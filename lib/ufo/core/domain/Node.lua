@@ -99,4 +99,4 @@ function Node:root ()
   return root
 end
 
-return Domain(Node)
+return NodeDomain
