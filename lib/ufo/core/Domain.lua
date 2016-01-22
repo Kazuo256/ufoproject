@@ -45,8 +45,12 @@ function Domain:instance(obj, the_class)
 
 end
 
+local function displayId (id)
+  return tostring(id):match "(0x%x)"
+end
+
 function Domain:newId ()
-  local new_id = {}
+  local new_id = setmetatable({}, { __tostring = displayId })
   valid[new_id] = true
   return new_id
 end
