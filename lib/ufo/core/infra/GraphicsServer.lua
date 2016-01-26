@@ -35,14 +35,18 @@ function GraphicsServer:instance (obj)
   end
 
   function obj:refresh (dt)
-    -- Nothing for now
+    for i,step in ipairs(steps) do
+      if enabled[i] then
+        step.update(dt)
+      end
+    end
   end
 
   function obj:drawAll ()
     for i,step in ipairs(steps) do
       if enabled[i] then
         graphics.reset()
-        step(graphics)
+        step.draw(graphics)
       end
     end
   end
