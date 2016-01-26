@@ -15,10 +15,11 @@ local function sys (verbose, str, ...)
   assert(os.execute(line))
 end
 
-local function writeTemplate (which, where, ext)
+local function writeTemplate (which, where, ext, fmt)
   local macro = require 'lux.macro'
   local inpath = string.format("scripts/templates/%s.in%s", which, ext)
-  local outpath = string.format("%s/%s%s", where, which, ext)
+  fmt = fmt or "%s"
+  local outpath = string.format("./%s/%s%s", where, fmt:format(which), ext)
   local template = io.open(inpath, 'r')
   assert(template, "Failed to load template "..inpath)
   local output = io.open(outpath, 'w')
@@ -40,10 +41,10 @@ function cmd.setup ()
   cmd.update()
 
   print("[ufo] Generating standard template...")
-  writeTemplate("conf", ".", '.lua')
-  writeTemplate("main", ".", '.lua')
-  writeTemplate(".gitignore", ".", '')
-  writeTemplate("Activity", "./activities/Bootstrap", ".lua")
+  writeTemplate("conf", "", '.lua')
+  writeTemplate("main", "", '.lua')
+  writeTemplate(".gitignore", "", '')
+  writeTemplate("Activity", "activities", ".lua", "Bootstrap%s")
 
 end
 
