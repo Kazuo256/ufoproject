@@ -15,12 +15,12 @@ local function sys (verbose, str, ...)
   assert(os.execute(line))
 end
 
-local function writeTemplate (which, id, ...)
+local function writeTemplate (which, id, opt)
   local macro = require 'lux.macro'
   -- Load template
   local inpath = string.format("scripts/templates/%s.in.lua", which)
   local template = io.open(inpath, 'r')
-  local env = { id = id, arg = table.pack(...) }
+  local env = { id = id, opt = opt }
   assert(template, "Failed to load template "..inpath)
   -- Process
   local generated = macro.process(template:read('a'), env)
@@ -66,7 +66,7 @@ end
 
 function cmd.generate (template, ...)
   local template, name = arg[2], arg[3]
-  writeTemplate(Activity)
+  writeTemplate(template, name) 
 end
 
-return cmd[arg[1]](select(2, ...))
+return cmd[arg[1]] (select(2, ...))
