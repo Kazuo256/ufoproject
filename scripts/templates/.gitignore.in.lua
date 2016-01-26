@@ -1,3 +1,4 @@
+# outfmt = ".gitignore"
 *~
 .*~
 .*.swp

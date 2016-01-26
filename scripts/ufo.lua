@@ -15,14 +15,21 @@ local function sys (verbose, str, ...)
   assert(os.execute(line))
 end
 
-local function writeTemplate (inpath, outpath, env)
+local function writeTemplate (which, id, ...)
   local macro = require 'lux.macro'
-  inpath = string.format("scripts/templates/%s", inpath)
+  -- Load template
+  local inpath = string.format("scripts/templates/%s.in.lua", which)
   local template = io.open(inpath, 'r')
+  local env = { arg = table.pack(...) }
   assert(template, "Failed to load template "..inpath)
+  -- Process
+  local generated = macro.process(template:read('a'), env)
+  assert(env.outfmt, "Template is missing its output format")
+  local outpath = env.outfmt:format(id)
+  -- Write output
   local output = io.open(outpath, 'w')
   print("[ufo]\t+new file: "..outpath)
-  return output:write(macro.process(template:read('a'), env))
+  return output:write(generated)
 end
 
 function cmd.setup ()
@@ -39,11 +46,10 @@ function cmd.setup ()
   cmd.update()
 
   print("[ufo] Generating standard template...")
-  writeTemplate("conf.in.lua", "conf.lua")
-  writeTemplate("main.in.lua", "main.lua")
-  writeTemplate(".gitignore.in", ".gitignore")
-  writeTemplate("Activity.in.lua", "activities/BootstrapActivity.lua",
-                { name = "Bootstrap" })
+  writeTemplate("conf")
+  writeTemplate("main")
+  writeTemplate(".gitignore")
+  writeTemplate("activity", "Bootstrap")
 
 end
 
@@ -58,6 +64,9 @@ function cmd.update ()
   sys(false, "cp -r externals/ufoproject/scripts .")
 end
 
-local command = ...
+function cmd.generate (template, ...)
+  local template, name = arg[2], arg[3]
+  writeTemplate(Activity)
+end
 
-cmd[command]()
+return cmd[arg[1]](select(2, ...))

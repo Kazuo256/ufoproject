@@ -1,4 +1,4 @@
-
+# outfmt = "activities/%sActivity.lua"
 # local classname = name.."Activity"
 
 local $(classname) = require 'lux.class' :new{}
