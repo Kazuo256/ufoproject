@@ -46,11 +46,11 @@ end
 
 function cmd.update ()
   print("[ufo] Updating LUX...")
-  sys(false, "cd externals/lux && git pull")
+  sys(false, "cd externals/luxproject && git pull")
   sys(false, "cp -r externals/luxproject/lib/lux .")
   
   print("[ufo] Updating UFO...")
-  sys(false, "cd externals/ufo && git pull")
+  sys(false, "cd externals/ufoproject && git pull")
   sys(false, "cp -r externals/ufoproject/lib/ufo .")
   sys(false, "cp -r externals/ufoproject/scripts .")
 end
