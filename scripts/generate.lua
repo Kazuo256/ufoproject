@@ -9,12 +9,12 @@ local templates = {
     outdir = "activities",
     code = [[
 
-$! local classname = name.."Activity"
-local $=classname=$ = require 'lux.class' :new{}
+$ local classname = name.."Activity"
+local $(classname) = require 'lux.class' :new{}
 
-$=classname=$:inherit(require 'Activity')
+$(classname):inherit(require 'Activity')
 
-function $=classname=$:instance (obj, ...)
+function $(classname):instance (obj, ...)
   
   self:super(obj)
 
@@ -24,7 +24,7 @@ function $=classname=$:instance (obj, ...)
 
 end
 
-return $=classname=$
+return $(classname)
 
 ]]
   }

@@ -16,6 +16,7 @@ cd ..
 mkdir activities
 mkdir infra
 mkdir domain
+mkdir resources
 mkdir assets
 
 echo "require 'ufo'" > main.lua
