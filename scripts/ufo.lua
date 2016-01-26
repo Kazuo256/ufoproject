@@ -17,8 +17,9 @@ end
 
 local function writeTemplate (which, where, ext)
   local macro = require 'lux.macro'
-  local path = "scripts/templates/%s.in%s"
-  local template = io.open(path:format(which, ext), 'r')
+  local path = string.format("scripts/templates/%s.in%s", which, ext)
+  local template = io.open(path, 'r')
+  assert(template, "Failed to load template "..path)
   local output = io.open(where, 'w')
   print("[ufo]\t+new file: "..where)
   return output:write(macro.process(template:read('a')))
