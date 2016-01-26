@@ -17,11 +17,12 @@ end
 
 local function writeTemplate (which, where, ext)
   local macro = require 'lux.macro'
-  local path = string.format("scripts/templates/%s.in%s", which, ext)
-  local template = io.open(path, 'r')
-  assert(template, "Failed to load template "..path)
-  local output = io.open(where, 'w')
-  print("[ufo]\t+new file: "..where)
+  local inpath = string.format("scripts/templates/%s.in%s", which, ext)
+  local outpath = string.format("%s/%s%s", where, which, ext)
+  local template = io.open(inpath, 'r')
+  assert(template, "Failed to load template "..inpath)
+  local output = io.open(outpath, 'w')
+  print("[ufo]\t+new file: "..outpath)
   return output:write(macro.process(template:read('a')))
 end
 
@@ -39,9 +40,9 @@ function cmd.setup ()
   cmd.update()
 
   print("[ufo] Generating standard template...")
-  writeTemplate("conf", "conf.lua", 'lua')
-  writeTemplate("main", "main.lua", 'lua')
-  writeTemplate("gitignore", ".gitignore", '')
+  writeTemplate("conf", ".", '.lua')
+  writeTemplate("main", ".", '.lua')
+  writeTemplate(".gitignore", ".", '')
 
 end
 
