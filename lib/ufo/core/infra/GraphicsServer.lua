@@ -20,7 +20,7 @@ function GraphicsServer:instance (obj)
 
   function obj:setStep (i, step_name, enable)
     assert(i >= 1 and i <= #steps, "Invalid step index")
-    steps[i] = require("infra.graphics."..step_name)
+    steps[i] = loadResource('drawstep', step_name)
     enabled[i] = enable or false
   end
 

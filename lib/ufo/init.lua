@@ -14,6 +14,15 @@ local FRAME = 1/60
 local engine
 local gfxserver
 
+-- Utility global functions
+function loadResource (kind, name)
+  return require("resources."..kind.."."..name)
+end
+
+function assetPath (kind, name)
+  return string.format("assets/%s/%s", kind, name)
+end
+
 function love.load (arg)
   path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
   path.add('ufo-core', 'ufo/core/?.lua')
