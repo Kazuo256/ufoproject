@@ -9,7 +9,7 @@ local templates = {
     outdir = "activities",
     code = [[
 
-$ local classname = name.."Activity"
+# local classname = name.."Activity"
 local $(classname) = require 'lux.class' :new{}
 
 $(classname):inherit(require 'Activity')
