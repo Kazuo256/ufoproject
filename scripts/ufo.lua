@@ -28,7 +28,7 @@ local function writeTemplate (which, id, opt)
   local outpath = env.outfmt:format(id)
   -- Write output
   local output = io.open(outpath, 'w')
-  print("[ufo]\t+new file: "..outpath)
+  print("[ufo]\t+generated: "..outpath)
   return output:write(generated)
 end
 
