@@ -43,6 +43,7 @@ function cmd.setup ()
   writeTemplate("conf", ".", '.lua')
   writeTemplate("main", ".", '.lua')
   writeTemplate(".gitignore", ".", '')
+  writeTemplate("Activity", "./activities/Bootstrap", ".lua")
 
 end
 
