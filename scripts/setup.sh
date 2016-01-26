@@ -19,4 +19,5 @@ mkdir domain
 mkdir assets
 
 echo "require 'ufo'" > main.lua
+cat scripts/extra/.gitignore_for_project >> .gitignore
 
