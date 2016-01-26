@@ -20,7 +20,7 @@ local function writeTemplate (which, id, ...)
   -- Load template
   local inpath = string.format("scripts/templates/%s.in.lua", which)
   local template = io.open(inpath, 'r')
-  local env = { arg = table.pack(...) }
+  local env = { id = id, arg = table.pack(...) }
   assert(template, "Failed to load template "..inpath)
   -- Process
   local generated = macro.process(template:read('a'), env)
