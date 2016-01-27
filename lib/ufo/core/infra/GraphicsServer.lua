@@ -46,11 +46,11 @@ function GraphicsServer:instance (obj)
     -- Does nothing?
   end
 
-  function obj:drawAll ()
+  function obj:drawAll (engine)
     for i,step in ipairs(steps) do
       if enabled[i] then
         graphics.reset()
-        step.draw(graphics)
+        step.draw(graphics, engine)
       end
     end
   end

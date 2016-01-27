@@ -59,6 +59,6 @@ function love.quit ()
 end
 
 function love.draw ()
-  engine:server 'Graphics' :drawAll()
+  engine:server 'Graphics' :drawAll(engine)
 end
 
