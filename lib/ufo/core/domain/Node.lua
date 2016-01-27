@@ -1,5 +1,5 @@
 
-local Node    = require 'lux.class' :new{}
+local Node    = class:new{}
 local Domain  = require 'Domain'
 
 function Node:instance (obj, name)

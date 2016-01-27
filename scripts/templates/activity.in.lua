@@ -1,7 +1,7 @@
 # outfmt = "activities/%sActivity.lua"
 # local classname = id.."Activity"
 
-local $(classname) = require 'lux.class' :new{}
+local $(classname) = class:new{}
 
 $(classname):inherit(require 'Activity')
 
