@@ -26,8 +26,9 @@ end
 function love.load (arg)
   path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
   path.add('ufo-core', 'ufo/core/?.lua')
+  package.cpath = package.cpath .. ";./?.so"
   engine = require 'Engine' ()
-  gfxserver = engine:loadServer "Graphics"
+  engine:loadServer "Graphics"
   engine:addActivity(require 'activities.BootstrapActivity' ())
 end
 
@@ -41,7 +42,7 @@ do
       end
       lag = lag - FRAME
     end
-    gfxserver:refresh(dt)
+    engine:refreshServers(dt)
   end
 end
 
@@ -53,7 +54,11 @@ for k,handler in pairs(love.handlers) do
   end
 end
 
+function love.quit ()
+  engine:shutdownServers()
+end
+
 function love.draw ()
-  gfxserver:drawAll()
+  engine:server 'Graphics' :drawAll()
 end
 
