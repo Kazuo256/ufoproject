@@ -7,7 +7,5 @@
 /lux
 /ufo
 /externals
-/scripts/setup.sh
-/scripts/update.sh
-/scripts/generate.lua
+/scripts/ufo.lua
 /scripts/templates
