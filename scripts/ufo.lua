@@ -40,8 +40,10 @@ function cmd.setup ()
   end
 
   print("[ufo] Downloading framework...")
-  sys(false, "cd externals && git clone https://github.com/Kazuo256/luxproject.git")
-  sys(false, "cd externals && git clone https://github.com/Kazuo256/ufoproject.git -b infra_domain_activity")
+  sys(false,
+      "cd externals && git clone https://github.com/Kazuo256/luxproject.git")
+  sys(false,
+      "cd externals && git clone https://github.com/Kazuo256/ufoproject.git")
   
   cmd.update()
 
