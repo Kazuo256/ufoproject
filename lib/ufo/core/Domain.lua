@@ -23,7 +23,7 @@ function Domain:instance(obj, the_class)
     local element = the_class(...)
     elements[id] = element
     reverse[element] = id
-    return element
+    return element, id
   end
 
   function obj:get (id)
