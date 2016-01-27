@@ -96,6 +96,18 @@ function Engine:instance (obj)
       return servers[name]
     end
 
+    function obj:refreshServers (dt)
+      for _,server in pairs(servers) do
+        server:refresh(dt)
+      end
+    end
+
+    function obj:shutdownServers ()
+      for _,server in pairs(servers) do
+        server:shutdown()
+      end
+    end
+
   end  
 
   --[[ Layout management (deprecated?) ]]---------------------------------------

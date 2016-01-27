@@ -42,6 +42,10 @@ function GraphicsServer:instance (obj)
     end
   end
 
+  function obj:shutdown ()
+    -- Does nothing?
+  end
+
   function obj:drawAll ()
     for i,step in ipairs(steps) do
       if enabled[i] then
