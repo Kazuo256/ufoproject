@@ -15,6 +15,14 @@ local function sys (verbose, str, ...)
   assert(os.execute(line))
 end
 
+local function checkFile (path)
+  local file = io.open(path, 'r')
+  if file then
+    file:close()
+  end
+  return not not file
+end
+
 local function writeTemplate (which, id, opt)
   local macro = require 'lux.macro'
   -- Load template
@@ -36,7 +44,9 @@ function cmd.setup ()
 
   print("[ufo] Creating basic project structure...")
   for _,dir in ipairs(dirs) do
-    sys(true, "mkdir %s", dir)
+    if not checkFile(dir) then
+      sys(true, "mkdir %s", dir)
+    end
   end
 
   print("[ufo] Downloading framework...")
@@ -47,11 +57,13 @@ function cmd.setup ()
   
   cmd.update()
 
-  print("[ufo] Generating standard template...")
-  writeTemplate("conf")
-  writeTemplate("main")
-  writeTemplate(".gitignore")
-  writeTemplate("activity", "Bootstrap")
+  if not checkFile "main.lua" then
+    print("[ufo] Generating standard template...")
+    writeTemplate("conf")
+    writeTemplate("main")
+    writeTemplate(".gitignore")
+    writeTemplate("activity", "Bootstrap")
+  end
 
 end
 
