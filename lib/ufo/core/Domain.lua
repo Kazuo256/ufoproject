@@ -38,6 +38,9 @@ function Domain:instance(obj, the_class)
   function obj:destroy (id_or_element)
     local id = reverse[id_or_element] or id_or_element
     assert(valid[id], "invalid ID")
+    if the_class.onDestroy then
+      the_class:onDestroy(elements[id])
+    end
     reverse[elements[id]] = nil
     elements[id] = nil
   end
