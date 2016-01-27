@@ -1,27 +1,34 @@
 
-package.path = package.path .. ";./game/lib/?.lua;./lib/?.lua"
-
-local FRAME = 1/60
+local path = require 'lux.path'
 
 -- These appear in pratically every file, so let's make them global.
-vec2 = require 'lux.geom.Vector'
-pack = require 'lux.pack'
+prototype = require 'lux.prototype'
+class     = require 'lux.class'
+vec2      = require 'lux.geom.Vector'
+pack      = require 'lux.pack'
 
 -- Lua 5.X compatibility
 require 'lux.portable'
 
-local core  = pack 'ufo.core'
-local gui   = pack 'ufo.gui'
-
+local FRAME = 1/60
 local engine
-local layout
+local gfxserver
 
-function love.load ()
-  engine = core.Engine()
-  layout = gui.Layout()
-  engine:setLayout(layout)
-  local activities = pack 'activities'
-  engine:addActivity(activities.BootstrapActivity())
+-- Utility global functions
+function loadResource (kind, name)
+  return require("resources."..kind.."."..name)
+end
+
+function assetPath (kind, name)
+  return string.format("assets/%s/%s", kind, name)
+end
+
+function love.load (arg)
+  path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
+  path.add('ufo-core', 'ufo/core/?.lua')
+  engine = require 'Engine' ()
+  gfxserver = engine:loadServer "Graphics"
+  engine:addActivity(require 'activities.BootstrapActivity' ())
 end
 
 do
@@ -34,31 +41,19 @@ do
       end
       lag = lag - FRAME
     end
-    layout:refresh()
+    gfxserver:refresh(dt)
   end
 end
 
-function love.keypressed (key)
-  layout:keyboardAction('Pressed', key)
-end
-
-function love.mousepressed (x, y, button)
-  layout:mouseAction('Pressed', vec2:new{x,y}, button)
-end
-
-function love.mousereleased (x, y, button)
-  layout:mouseAction('Released', vec2:new{x,y}, button)
-end
-
-function love.joystickpressed (joystick, button)
-  layout:joystickAction('ButtonPressed', button)
-end
-
-function love.joystickhat (joystick, hat, dir)
-  layout:joystickAction('HatChanged', hat, dir)
+for k,handler in pairs(love.handlers) do
+  if k ~= 'quit' then
+    love[k] = function (...)
+      return engine:triggerHook(k, ...)
+    end
+  end
 end
 
 function love.draw ()
-  layout:draw(love.graphics, love.window)
+  gfxserver:drawAll()
 end
 
