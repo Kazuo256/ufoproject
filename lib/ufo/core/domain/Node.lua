@@ -1,6 +1,5 @@
 
 local Node    = class:new{}
-local Domain  = require 'Domain'
 
 function Node:instance (obj, name)
 
@@ -97,7 +96,7 @@ function Node:root ()
   return root
 end
 
-Node = Domain(Node)
+Node = require 'Domain' (Node)
 root = Node:create(true, "root")
 
 return Node
