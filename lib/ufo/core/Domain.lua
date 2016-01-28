@@ -35,6 +35,10 @@ function Domain:instance(obj, the_class)
     return reverse[element]
   end
 
+  function obj:forElement (element)
+    self:get(element.__class:getId(element))
+  end
+
   function obj:destroy (id_or_element)
     local id = reverse[id_or_element] or id_or_element
     assert(valid[id], "invalid ID")
