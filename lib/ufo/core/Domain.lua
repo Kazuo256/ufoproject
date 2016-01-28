@@ -36,7 +36,7 @@ function Domain:instance(obj, the_class)
   end
 
   function obj:forElement (element)
-    self:get(domains[element.__class]:getId(element))
+    return self:get(domains[element.__class]:getId(element))
   end
 
   function obj:destroy (id_or_element)
