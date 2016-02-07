@@ -5,9 +5,9 @@ local $(classname) = class:new{}
 
 $(classname):inherit(require 'Activity')
 
-function $(classname):instance (obj, ...)
+function $(classname):instance (_ENV, ...)
   
-  self:super(obj)
+  self:super(_ENV)
 
   function obj.__accept:Load (engine)
     -- Start here

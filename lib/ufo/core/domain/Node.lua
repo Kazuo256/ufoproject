@@ -102,6 +102,6 @@ function Node:root ()
 end
 
 Node = require 'Domain' (Node)
-root = Node:create(true, "root")
+root = Node.create(true, "root")
 
 return Node

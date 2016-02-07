@@ -66,9 +66,9 @@ function Activity:instance (_ENV)
   function processEvents ()
     for ev in in_queue.popEach() do
       if finished then return end
-      local callback = self.__accept[ev.getID()]
+      local callback = __accept[ev.getID()]
       if callback then
-        callback(self, ev.getArgs())
+        callback(ev.getArgs())
       end
     end
   end
@@ -79,7 +79,7 @@ function Activity:instance (_ENV)
     if type(opt) == 'string' then
       local task = current_task
       task.hold()
-      __accept[opt] = function (self, ...)
+      __accept[opt] = function (...)
         task.release(...)
         __accept[opt] = nil
       end
@@ -91,12 +91,12 @@ function Activity:instance (_ENV)
     return current_task
   end
 
-  function obj:addTask (name, ...)
-    local task = Task(__task[name], self, ...)
+  function addTask (name, ...)
+    local task = Task(__task[name], ...)
     table.insert(new_tasks, task)
   end
 
-  function obj:updateTasks ()
+  function updateTasks ()
     for _,task in ipairs(new_tasks) do
       tasks[task] = true
     end

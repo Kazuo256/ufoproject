@@ -4,6 +4,7 @@ local Task = require 'lux.class' :new{}
 local coroutine = coroutine
 local debug     = debug
 local error     = error
+local table     = table
 local type      = type
 
 function Task:instance (_ENV, func, ...)

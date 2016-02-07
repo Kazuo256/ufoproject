@@ -1,6 +1,6 @@
 
 local path = require 'lux.path'
-require 'lux.macro.overtake'
+require 'lux.macro.takeover'
 
 -- These appear in pratically every file, so let's make them global.
 prototype = require 'lux.prototype'

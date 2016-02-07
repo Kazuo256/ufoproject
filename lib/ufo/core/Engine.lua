@@ -27,7 +27,7 @@ function Engine:instance (_ENV)
     function addActivity (activity, i)
       i = i or #activities+1
       table.insert(activities, i, activity)
-      activity.receiveEvent(Event("Load", self))
+      activity.receiveEvent(Event("Load", _ENV))
     end
 
     function tick ()

@@ -4,6 +4,7 @@ local Domain = class:new{}
 local assert    = assert
 local tonumber  = tonumber
 local tostring  = tostring
+local pairs     = pairs
 
 local domains = {}
 local valid = {}
@@ -57,7 +58,7 @@ function Domain:instance(_ENV, the_class)
     return pairs(elements)
   end
 
-  obj.__index = the_class
+  __operator.index = the_class
 
 end
 

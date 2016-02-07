@@ -1,10 +1,11 @@
 
 local GraphicsServer = class:new{}
 
-local assert   = assert
-local ipairs   = ipairs
-local graphics = love.graphics
-local noop = function () end
+local assert        = assert
+local ipairs        = ipairs
+local loadResource  = loadResource
+local graphics      = love.graphics
+local noop          = function () end
 
 function GraphicsServer:instance (obj)
   
