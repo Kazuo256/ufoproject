@@ -1,7 +1,12 @@
 
 local Task = require 'lux.class' :new{}
 
-function Task:instance (obj, func, ...)
+local coroutine = coroutine
+local debug     = debug
+local error     = error
+local type      = type
+
+function Task:instance (_ENV, func, ...)
 
   local function bootstrap (...)
     coroutine.yield()
@@ -15,16 +20,16 @@ function Task:instance (obj, func, ...)
 
   coroutine.resume(task, ...)
 
-  function obj:hold ()
+  function hold ()
     onhold = true
   end
 
-  function obj:release (...)
+  function release (...)
     onhold = false
     params = table.pack(...)
   end
 
-  function obj:resume ()
+  function resume ()
     if coroutine.status(task) == 'dead' then
       return false
     elseif delay > 0 then

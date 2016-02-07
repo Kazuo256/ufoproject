@@ -3,9 +3,15 @@ local Engine  = require 'lux.class' :new{}
 
 local Event   = require 'Event'
 
-local noop = function () end
+local assert        = assert
+local ipairs        = ipairs
+local pairs         = pairs
+local setmetatable  = setmetatable
+local require       = require
+local table         = table
+local noop          = function () end
 
-function Engine:instance (obj)
+function Engine:instance (_ENV)
   
   local activities = {}
   
@@ -18,32 +24,32 @@ function Engine:instance (obj)
       return activity
     end
 
-    function obj:addActivity (activity, i)
+    function addActivity (activity, i)
       i = i or #activities+1
       table.insert(activities, i, activity)
-      activity:receiveEvent(Event("Load", self))
+      activity.receiveEvent(Event("Load", self))
     end
 
-    function obj:tick ()
+    function tick ()
       if #activities == 0 then
         return 'FINISHED'
       end
       local finished = {}
       for i,activity in ipairs(activities) do
-        activity:processEvents()
-        activity:updateTasks()
-        for ev in activity:pollEvents() do
-          self:broadcastEvent(ev)
+        activity.processEvents()
+        activity.updateTasks()
+        for ev in activity.pollEvents() do
+          broadcastEvent(ev)
         end
-        if activity:isFinished() then
+        if activity.isFinished() then
           table.insert(finished, i)
         end
       end
       for k=#finished,1,-1 do
         local removed = removeActivity(finished[k])
-        local scheduled = removed:getScheduled()
+        local scheduled = removed.getScheduled()
         for i = #scheduled,1,-1 do
-          self:addActivity(scheduled[i], finished[k])
+          addActivity(scheduled[i], finished[k])
         end
       end
       return 'OK'
@@ -56,24 +62,24 @@ function Engine:instance (obj)
   
     local hooks = setmetatable({}, { __index = function () return noop end })
 
-    function obj:broadcastEvent (ev)
+    function broadcastEvent (ev)
       for _,activity in ipairs(activities) do
-        activity:receiveEvent(ev)
+        activity.receiveEvent(ev)
       end
     end
 
-    function obj:setEventHook (hook_name, event_id, param_transfer)
+    function setEventHook (hook_name, event_id, param_transfer)
       if not event_id then
         hooks[hook_name] = nil
       else
         param_transfer = param_transfer or noop
         hooks[hook_name] = function (...)
-          return self:broadcastEvent(Event(event_id, param_transfer(...)))
+          return broadcastEvent(Event(event_id, param_transfer(...)))
         end
       end
     end
 
-    function obj:triggerHook (hook_name, ...)
+    function triggerHook (hook_name, ...)
       return hooks[hook_name](...)
     end
 
@@ -85,26 +91,26 @@ function Engine:instance (obj)
 
     local servers = {}
 
-    function obj:loadServer (name)
+    function loadServer (name)
       assert(not servers[name], "Server already loaded")
       local server = require("infra."..name.."Server") ()
       servers[name] = server
       return server
     end
 
-    function obj:server (name)
+    function server (name)
       return servers[name]
     end
 
-    function obj:refreshServers (dt)
+    function refreshServers (dt)
       for _,server in pairs(servers) do
-        server:refresh(dt)
+        server.refresh(dt)
       end
     end
 
-    function obj:shutdownServers ()
+    function shutdownServers ()
       for _,server in pairs(servers) do
-        server:shutdown()
+        server.shutdown()
       end
     end
 
@@ -115,11 +121,11 @@ function Engine:instance (obj)
 
     local layout
 
-    function obj:getLayout ()
+    function getLayout ()
        return layout
      end
 
-    function obj:setLayout(new_layout)
+    function setLayout(new_layout)
       layout = new_layout
     end
 

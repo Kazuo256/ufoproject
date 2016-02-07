@@ -1,15 +1,17 @@
 
 local Event = require 'lux.class' :new{}
 
-function Event:instance (obj, id, ...)
+local table = table
+
+function Event:instance (_ENV, id, ...)
 
   local args = table.pack(...)
 
-  function obj:getID ()
+  function getID ()
     return id
   end
 
-  function obj:getArgs ()
+  function getArgs ()
     return table.unpack(args, 1, args.n)
   end
 

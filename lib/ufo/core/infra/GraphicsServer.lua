@@ -1,15 +1,17 @@
 
 local GraphicsServer = class:new{}
 
+local assert   = assert
+local ipairs   = ipairs
+local graphics = love.graphics
 local noop = function () end
 
 function GraphicsServer:instance (obj)
   
   local steps = {}
   local enabled = {}
-  local graphics = love.graphics
 
-  function obj:resetSteps (n)
+  function resetSteps (n)
     steps = {}
     enabled = {}
     for i=1,n do
@@ -18,23 +20,23 @@ function GraphicsServer:instance (obj)
     end
   end
 
-  function obj:setStep (i, step_name, enable)
+  function setStep (i, step_name, enable)
     assert(i >= 1 and i <= #steps, "Invalid step index")
     steps[i] = loadResource('drawstep', step_name)
     enabled[i] = enable or false
   end
 
-  function obj:enableStep (i)
+  function enableStep (i)
     assert(i >= 1 and i <= #steps, "Invalid step index")
     enabled[i] = true
   end
 
-  function obj:disableStep (i)
+  function disableStep (i)
     assert(i >= 1 and i <= #steps, "Invalid step index")
     enabled[i] = false
   end
 
-  function obj:refresh (dt)
+  function refresh (dt)
     for i,step in ipairs(steps) do
       if enabled[i] then
         step.update(dt)
@@ -42,11 +44,11 @@ function GraphicsServer:instance (obj)
     end
   end
 
-  function obj:shutdown ()
+  function shutdown ()
     -- Does nothing?
   end
 
-  function obj:drawAll (engine)
+  function drawAll (engine)
     for i,step in ipairs(steps) do
       if enabled[i] then
         graphics.reset()

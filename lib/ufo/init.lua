@@ -1,5 +1,6 @@
 
 local path = require 'lux.path'
+require 'lux.macro.overtake'
 
 -- These appear in pratically every file, so let's make them global.
 prototype = require 'lux.prototype'
@@ -28,8 +29,8 @@ function love.load (arg)
   path.add('ufo-core', 'ufo/core/?.lua')
   package.cpath = package.cpath .. ";./?.so"
   engine = require 'Engine' ()
-  engine:loadServer "Graphics"
-  engine:addActivity(require 'activities.BootstrapActivity' ())
+  engine.loadServer "Graphics"
+  engine.addActivity(require 'activities.BootstrapActivity' ())
 end
 
 do
@@ -37,28 +38,28 @@ do
   function love.update (dt)
     lag = lag + dt
     while lag >= FRAME do
-      if engine:tick() == 'FINISHED' then
+      if engine.tick() == 'FINISHED' then
         love.event.push 'quit'
       end
       lag = lag - FRAME
     end
-    engine:refreshServers(dt)
+    engine.refreshServers(dt)
   end
 end
 
 for k,handler in pairs(love.handlers) do
   if k ~= 'quit' then
     love[k] = function (...)
-      return engine:triggerHook(k, ...)
+      return engine.triggerHook(k, ...)
     end
   end
 end
 
 function love.quit ()
-  engine:shutdownServers()
+  engine.shutdownServers()
 end
 
 function love.draw ()
-  engine:server 'Graphics' :drawAll(engine)
+  engine.server 'Graphics' .drawAll(engine)
 end
 

@@ -1,7 +1,12 @@
 
-local Node    = class:new{}
+local Node = class:new{}
 
-function Node:instance (obj, name)
+local assert        = assert
+local ipairs        = ipairs
+local setmetatable  = setmetatable
+local table         = table
+
+function Node:instance (_ENV, name)
 
   local children = {}
   local reverse_index = {}
@@ -10,25 +15,25 @@ function Node:instance (obj, name)
   local to_be_added = {}
   local to_be_removed = {}
 
-  function obj:getName ()
+  function getName ()
     return name
   end
 
-  function obj:setParent (new_parent)
+  function setParent (new_parent)
     parent = setmetatable({new_parent}, {__mode='v'})
   end
 
-  function obj:getParent ()
+  function getParent ()
     return parent and parent[1]
   end
 
-  function obj:get (index_or_name)
+  function get (index_or_name)
     local child = children[index_or_name]
     if not child then
       if index_or_name:find '/' then
         local current = self
         for node_name in index_or_name:gmatch "([^/]+)" do
-          current = current:get(node_name)
+          current = current.get(node_name)
         end
         child = current
       else
@@ -38,48 +43,48 @@ function Node:instance (obj, name)
     return child
   end
 
-  function obj:addChild (child)
+  function addChild (child)
     table.insert(to_be_added, child)
   end
 
-  function obj:removeChild (child)
+  function removeChild (child)
     table.insert(to_be_removed, child)
   end
 
-  function obj:remove ()
+  function remove ()
     if parent then
-      parent[1]:removeChild(self)
+      parent[1].removeChild(self)
     end
   end
 
-  function obj:onRemove ()
+  function onRemove ()
     -- Abstract
   end
 
   local function doAddChild (child)
     assert(child, "Cannot add nil node")
-    local name = child:getName()
+    local name = child.getName()
     assert(not reverse_index[name], "Duplicate node name '"..name.."'")
     table.insert(children, child)
     reverse_index[name] = #children
-    child:setParent(self)
+    child.setParent(self)
   end
 
   local function doRemoveChild (child)
     assert(child, "Cannot remove nil node.")
-    local name = child:getName()
+    local name = child.getName()
     local index = reverse_index[name]
     assert(index, "No such child node with name '"..name.."'")
-    child:setParent(nil)
+    child.setParent(nil)
     table.remove(children, index)
-    child:onRemove()
+    child.onRemove()
     for i=index,#children do
-      reverse_index[children[i]:getName()] = i
+      reverse_index[children[i].getName()] = i
     end
     reverse_index[name] = nil
   end
 
-  function obj:flush ()
+  function flush ()
     for _,child in ipairs(to_be_removed) do
       doRemoveChild(child)
     end

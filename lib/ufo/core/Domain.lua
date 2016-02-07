@@ -1,10 +1,14 @@
 
 local Domain = class:new{}
 
+local assert    = assert
+local tonumber  = tonumber
+local tostring  = tostring
+
 local domains = {}
 local valid = {}
 
-function Domain:instance(obj, the_class)
+function Domain:instance(_ENV, the_class)
 
   local elements = {}
   local reverse = {}
@@ -12,9 +16,9 @@ function Domain:instance(obj, the_class)
   assert(the_class, "Class is nil")
   assert(not domains[the_class], "There already is a domain for this class")
 
-  domains[the_class] = obj
+  domains[the_class] = _ENV
 
-  function obj:create (id, ...)
+  function create (id, ...)
     if id == true then
       id = Domain:newId()
     end
@@ -26,20 +30,20 @@ function Domain:instance(obj, the_class)
     return element, id
   end
 
-  function obj:get (id)
+  function get (id)
     assert(valid[id], "invalid ID")
     return elements[id]
   end
 
-  function obj:getId (element)
+  function getId (element)
     return reverse[element]
   end
 
-  function obj:forElement (element)
-    return self:get(domains[element.__class]:getId(element))
+  function forElement (element)
+    return get(domains[element.__class].getId(element))
   end
 
-  function obj:destroy (id_or_element)
+  function destroy (id_or_element)
     local id = reverse[id_or_element] or id_or_element
     assert(valid[id], "invalid ID")
     if the_class.onDestroy then
@@ -49,7 +53,7 @@ function Domain:instance(obj, the_class)
     elements[id] = nil
   end
 
-  function obj:all ()
+  function all ()
     return pairs(elements)
   end
 
@@ -74,7 +78,7 @@ end
 function Domain:getId (element)
   local domain = domains[element.__class]
   assert(domain, "Element has no domain")
-  return domain:getId(element)
+  return domain.getId(element)
 end
 
 return Domain
