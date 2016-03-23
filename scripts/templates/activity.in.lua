@@ -9,7 +9,7 @@ function $(classname):instance (_ENV, ...)
   
   self:super(_ENV)
 
-  function obj.__accept:Load (engine)
+  function __accept:Load (engine)
     -- Start here
   end
 
