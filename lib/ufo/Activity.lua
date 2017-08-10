@@ -9,6 +9,7 @@ local pairs     = pairs
 local select    = select
 local table     = table
 local type      = type
+local setfenv   = setfenv
 
 local Activity = require 'lux.class' :new{}
 
