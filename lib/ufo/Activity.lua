@@ -52,7 +52,7 @@ function Activity:instance (obj)
   -- Event stuff
 
   function pollEvents ()
-    return out_queue.popEach()
+    return function () return out_queue.pop(1) end
   end
 
   function sendEvent (id)
@@ -66,7 +66,7 @@ function Activity:instance (obj)
   end
 
   function processEvents ()
-    for ev in in_queue.popEach() do
+    for ev in (function () return in_queue.pop(1) end) do
       if finished then return end
       local callback = __accept[ev.getID()]
       if callback then
