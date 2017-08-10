@@ -1,7 +1,7 @@
 
 local Event = require 'ufo.Event'
 local Task  = require 'ufo.Task'
-local Queue = require 'lux.struct.Queue'
+local Queue = require 'lux.common.Queue'
 
 local coroutine = coroutine
 local ipairs    = ipairs
