@@ -8,6 +8,8 @@ local graphics      = love.graphics
 local noop          = function () end
 
 function GraphicsServer:instance (obj)
+
+  setfenv(1, obj)
   
   local steps = {}
   local enabled = {}
