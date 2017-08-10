@@ -5,6 +5,7 @@ local assert    = assert
 local tonumber  = tonumber
 local tostring  = tostring
 local pairs     = pairs
+local setfenv   = setfenv
 
 local domains = {}
 local valid = {}

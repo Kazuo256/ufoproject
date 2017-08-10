@@ -5,6 +5,7 @@ local assert        = assert
 local ipairs        = ipairs
 local setmetatable  = setmetatable
 local table         = table
+local setfenv       = setfenv
 
 function Node:instance (obj, name)
 

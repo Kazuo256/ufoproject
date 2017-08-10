@@ -1,7 +1,8 @@
 
 local Event = require 'lux.class' :new{}
 
-local table = table
+local table   = table
+local setfenv = setfenv
 
 function Event:instance (obj, id, ...)
 

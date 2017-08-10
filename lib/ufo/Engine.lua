@@ -9,6 +9,7 @@ local pairs         = pairs
 local setmetatable  = setmetatable
 local require       = require
 local table         = table
+local setfenv       = setfenv
 local noop          = function () end
 
 function Engine:instance (obj)
