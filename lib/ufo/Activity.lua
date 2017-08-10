@@ -38,11 +38,15 @@ function Activity:instance (obj)
     finished = true
   end
 
-  function switch (...)
+  function push (...)
     for i = 1,select('#', ...) do
       table.insert(scheduled, (select(i, ...)))
     end
-    finished = true
+  end
+
+  function switch (...)
+    push()
+    finish()
   end
 
   function getScheduled ()
