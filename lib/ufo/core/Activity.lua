@@ -1,6 +1,6 @@
 
-local Event = require 'Event'
-local Task  = require 'Task'
+local Event = require 'ufo.Event'
+local Task  = require 'ufo.Task'
 local Queue = require 'lux.struct.Queue'
 
 local coroutine = coroutine

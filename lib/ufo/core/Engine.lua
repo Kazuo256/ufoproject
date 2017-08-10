@@ -1,7 +1,7 @@
 
 local Engine  = require 'lux.class' :new{}
 
-local Event   = require 'Event'
+local Event   = require 'ufo.Event'
 
 local assert        = assert
 local ipairs        = ipairs
@@ -93,7 +93,7 @@ function Engine:instance (_ENV)
 
     function loadServer (name)
       assert(not servers[name], "Server already loaded")
-      local server = require("infra."..name.."Server") ()
+      local server = require("ufo.infra."..name.."Server") ()
       servers[name] = server
       return server
     end

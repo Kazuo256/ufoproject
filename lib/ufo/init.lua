@@ -5,7 +5,6 @@ require 'lux.macro.takeover'
 -- These appear in pratically every file, so let's make them global.
 prototype = require 'lux.prototype'
 class     = require 'lux.class'
-vec2      = require 'lux.geom.Vector'
 pack      = require 'lux.pack'
 
 -- Lua 5.X compatibility
@@ -25,10 +24,7 @@ function assetPath (kind, name)
 end
 
 function love.load (arg)
-  path.clear(love.filesystem.getRequirePath(), love.filesystem.setRequirePath)
-  path.add('ufo-core', 'ufo/core/?.lua')
-  package.cpath = package.cpath .. ";./?.so"
-  engine = require 'Engine' ()
+  engine = require 'ufo.Engine' ()
   engine.loadServer "Graphics"
   engine.addActivity(require 'activities.BootstrapActivity' ())
 end

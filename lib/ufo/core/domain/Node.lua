@@ -101,7 +101,7 @@ function Node:root ()
   return root
 end
 
-Node = require 'Domain' (Node)
+Node = require 'ufo.Domain' (Node)
 root = Node.create(true, "root")
 
 return Node
