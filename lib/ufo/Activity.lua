@@ -46,7 +46,7 @@ function Activity:instance (obj)
   end
 
   function switch (...)
-    push()
+    push(...)
     finish()
   end
 
