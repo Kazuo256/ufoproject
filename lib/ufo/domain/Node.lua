@@ -6,7 +6,9 @@ local ipairs        = ipairs
 local setmetatable  = setmetatable
 local table         = table
 
-function Node:instance (_ENV, name)
+function Node:instance (obj, name)
+
+  setfenv(1, obj)
 
   local children = {}
   local reverse_index = {}

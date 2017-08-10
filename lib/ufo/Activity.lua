@@ -12,7 +12,9 @@ local type      = type
 
 local Activity = require 'lux.class' :new{}
 
-function Activity:instance (_ENV)
+function Activity:instance (obj)
+
+  setfenv(1, obj)
 
   local QUEUE_MAX_SIZE = 32
 

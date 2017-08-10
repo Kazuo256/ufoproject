@@ -9,7 +9,9 @@ local pairs     = pairs
 local domains = {}
 local valid = {}
 
-function Domain:instance(_ENV, the_class)
+function Domain:instance(obj, the_class)
+
+  setfenv(1, obj)
 
   local elements = {}
   local reverse = {}

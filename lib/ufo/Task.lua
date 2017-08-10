@@ -7,7 +7,9 @@ local error     = error
 local table     = table
 local type      = type
 
-function Task:instance (_ENV, func, ...)
+function Task:instance (obj, func, ...)
+
+  setfenv(1, obj)
 
   local function bootstrap (...)
     coroutine.yield()

@@ -3,7 +3,9 @@ local Event = require 'lux.class' :new{}
 
 local table = table
 
-function Event:instance (_ENV, id, ...)
+function Event:instance (obj, id, ...)
+
+  setfenv(1, obj)
 
   local args = table.pack(...)
 

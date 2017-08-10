@@ -11,7 +11,9 @@ local require       = require
 local table         = table
 local noop          = function () end
 
-function Engine:instance (_ENV)
+function Engine:instance (obj)
+
+  setfenv(1, obj)
   
   local activities = {}
   
