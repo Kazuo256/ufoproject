@@ -19,7 +19,7 @@ function Domain:instance(obj, the_class)
   assert(the_class, "Class is nil")
   assert(not domains[the_class], "There already is a domain for this class")
 
-  domains[the_class] = _ENV
+  domains[the_class] = obj
 
   function create (id, ...)
     if id == true then
